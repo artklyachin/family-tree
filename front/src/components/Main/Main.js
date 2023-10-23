@@ -1,8 +1,10 @@
 import {TextBlock} from "../Auxiliary/TextBlock";
 import {main_texts} from "./main-texts"
 import {LinkBlock} from "../Auxiliary/LinkBlock";
-
+import React from 'react';
 export function Main() {
+    const [countClicker, setCountClicker] = React.useState(0);
+
     return (
         <div className="main-aside">
             <div className="main-part-1">
@@ -31,6 +33,12 @@ export function Main() {
             <div className="main-part-5">
                 <TextBlock text={main_texts["join_to_us"]} className="main-part-5-txt1"/>
                 <LinkBlock elements='registration' to='/authorization' className='main-part-5-auth'/>
+            </div>
+            <div>
+                <p>Кликер. Вы нажали {countClicker} раз(а)</p>
+                <button onClick={() => setCountClicker(countClicker + 1)}>
+                    Нажми меня
+                </button>
             </div>
         </div>
     );
