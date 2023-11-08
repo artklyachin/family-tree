@@ -5,6 +5,14 @@ import { InfoText } from "./info-texts";
 
 export function Info() {
 
+    /*
+    Promise.all([
+        fetch('sample.txt').then(x => x.text()),
+        fetch('sample2.txt').then(x => x.text())
+    ]).then(([sampleResp, sample2Resp]) => {
+        console.log(sampleResp);
+        console.log(sample2Resp);
+    });*/
     console.log();
 
     return (
