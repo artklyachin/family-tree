@@ -21,7 +21,7 @@ import {Forgot} from "./components/Auth/Forgot";
 import {ChngPass} from "./components/Auth/ChngPass";
 import {Desktop} from './components/Main/Desktop';
 import {Profile} from './components/Profiles/Profile';
-import {Wiki} from './components/Profiles/Wiki';
+import {Wiki} from './components/Wikipage/Wiki';
 
 import './styles/App.css';
 import './styles/Header.css';
@@ -29,7 +29,7 @@ import './styles/Footer.css';
 import './components/Main/Main.css';
 import './components/Main/Info.css';
 import './components/Main/Desktop.css';
-import './components/Main/Post.css';
+import './components/Main/CardItem.css';
 import './components/Auth/Auth.css';
 import './components/Profiles/Profile.css';
 import './components/Profiles/Wiki.css';

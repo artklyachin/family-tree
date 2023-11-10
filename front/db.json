@@ -1,0 +1,99 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "name": "Draco",
+      "surname": "Malfoy",
+      "family": "Malfoy family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 2,
+      "name": "Lucius",
+      "surname": "Malfoy",
+      "family": "Malfoy family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 3,
+      "name": "Harry",
+      "surname": "Potter",
+      "family": "Potter family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 4,
+      "name": "Hermione",
+      "surname": "Granger",
+      "family": "Hermione family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 5,
+      "name": "Ronn",
+      "surname": "Weasley",
+      "family": "Weasley family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 6,
+      "name": "Voldemort",
+      "surname": "",
+      "family": "",
+      "link": "/wiki_page"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "owned_card_ids": [
+        "1"
+      ],
+      "edited_card_ids": [
+        "2"
+      ],
+      "favor_card_ids": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ]
+    },
+    {
+      "id": "1lomePI"
+    },
+    {
+      "id": "ycE8e6B"
+    },
+    {
+      "id": "3Hxfe-m"
+    },
+    {
+      "login": "лдлл",
+      "password": "ргрг",
+      "id": "YQ5W_A7"
+    },
+    {
+      "login": "лдлл",
+      "password": "ргрг",
+      "id": "CqkzDvd"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "comment": "История человека, который перевернул мир"
+    },
+    {
+      "comment": "Он никогда не о чём не жалел",
+      "id": 2
+    },
+    {
+      "comment": "Любое его дело становилось очень успешным",
+      "id": 3
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
