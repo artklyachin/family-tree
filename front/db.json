@@ -2,7 +2,7 @@
   "cards": [
     {
       "id": 1,
-      "name": "Draco",
+      "name": "Drago",
       "surname": "Malfoy",
       "family": "Malfoy family",
       "link": "/wiki_page"
@@ -46,6 +46,8 @@
   "users": [
     {
       "id": "1",
+      "login": "log",
+      "password": "pass",
       "owned_card_ids": [
         "1"
       ],
@@ -57,32 +59,19 @@
         "4",
         "5",
         "6"
-      ]
-    },
-    {
-      "id": "1lomePI"
-    },
-    {
-      "id": "ycE8e6B"
-    },
-    {
-      "id": "3Hxfe-m"
+      ],
+      "user_avatar": "images/Malfoy.png"
     },
     {
       "login": "лдлл",
       "password": "ргрг",
-      "id": "YQ5W_A7"
-    },
-    {
-      "login": "лдлл",
-      "password": "ргрг",
-      "id": "CqkzDvd"
+      "id": "2"
     }
   ],
   "comments": [
     {
       "id": 1,
-      "comment": "История человека, который перевернул мир"
+      "comment": "Жил был молодой человек"
     },
     {
       "comment": "Он никогда не о чём не жалел",

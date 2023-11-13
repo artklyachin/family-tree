@@ -1,4 +1,5 @@
 import {TextBlock} from "../Auxiliary/TextBlock";
+import {CircleImg} from "../Auxiliary/CircleImg";
 import {CardItem} from "./CardItem";
 import {useEffect, useState} from "react";
 import {PublicationItem} from "../Wikipage/PublicationItem";
@@ -50,9 +51,6 @@ export function Desktop() {
 
     return (
         <div className='desktop-aside'>
-            {/*<div className="search-space">*/}
-            {/*    <TextBlock text="Search..." className="search-field"/>*/}
-            {/*</div>*/}
             <TextBlock text="Projects" className="section-page-name"/>
             <TextBlock text="your own page" className="section-section-name"/>
             <div className="post-grid">

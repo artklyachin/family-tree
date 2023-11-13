@@ -1,13 +1,32 @@
 .post {
+    display: grid;
+
+    box-sizing: border-box;
+    padding: 18px 25px 24px;
+    grid-template-columns: 138px 100px;
+    grid-column-gap: 0;
+
+    border: 1px solid #000000;
+    border-radius: 10px;
+
+    text-decoration: none;
+    color: black;
+
+    /*width: 400px;*/
+    /*
+    width: 280px;
+    min-height: 130px;
+    */
+
+    min-height: 141px;
+}
+
+.post_left {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
     box-sizing: border-box;
-    padding: 18px 25px 24px;
-
-    border: 1px solid #000000;
-    border-radius: 10px;
 
     text-decoration: none;
     color: black;
@@ -17,7 +36,6 @@
     min-height: 130px;
     */
 
-    min-height: 141px;
 }
 
 .post-name {

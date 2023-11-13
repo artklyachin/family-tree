@@ -25,7 +25,7 @@
 
     color: black;
 
-    margin-left: 15px;
+    margin-left: 8px;
 
     /* тень
     color: #000000;
@@ -56,7 +56,28 @@
 
     color: black;
 
-    margin-right: 20px;
+    margin-right: 10px;
+}
+
+.header-name {
+    position: relative;
+
+    text-decoration: none;
+    font-size: 22px;
+    line-height: 25px;
+    font-weight: 700;
+
+    color: black;
+
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.header-avatar {
+    display: flex;
+    position: relative;
+    width: 55px;
+    margin-right: 10px;
 }
 
 @media (max-width: 800px) {
@@ -71,7 +92,6 @@
 
     text-align: center;
     padding: 12px; /*ширина кнопки*/
-    margin-right: 50px;
 
     text-decoration: none;
     font-size: 22px;

@@ -1,4 +1,5 @@
-import {TextBlock} from "../Auxiliary/TextBlock";
+import {TextBlock} from "../../Auxiliary/TextBlock";
+import {CircleImg} from "../../Auxiliary/CircleImg"
 
 export function Profile() {
     return (
@@ -13,7 +14,10 @@ export function Profile() {
                 </div>
                 <div className="profile-foto">
                     <TextBlock text="Your photo" className="prfl-stl"/>
-                    <TextBlock text="" className="profile-foto-foto"/>
+                    <div className={"profile-foto-foto"}>
+                        <CircleImg imgUrl={require("../../../images/Malfoy.png")}/>
+                    </div>
+                    {/*<TextBlock text="" className="profile-foto-foto"/>*/}
                     <TextBlock text="update" className="profile-foto-update prfl-stl"/>
                 </div>
             </div>

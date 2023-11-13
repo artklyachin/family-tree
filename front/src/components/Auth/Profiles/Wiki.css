@@ -41,3 +41,7 @@
 .wiki-text {
     grid-area: wiki-text;
 }
+
+.wiki-create-form {
+    margin-top: 40px;
+}

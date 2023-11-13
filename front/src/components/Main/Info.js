@@ -2,6 +2,7 @@ import {TextBlock} from "../Auxiliary/TextBlock";
 import {main_texts} from "./main-texts";
 import {info_texts} from "./info-texts";
 import { InfoText } from "./info-texts";
+import { UploadImgButton } from "../Auxiliary/UploadImgButton"
 
 export function Info() {
 
