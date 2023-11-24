@@ -1,0 +1,88 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "name": "Drago",
+      "surname": "Malfoy",
+      "family": "Malfoy family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 2,
+      "name": "Lucius",
+      "surname": "Malfoy",
+      "family": "Malfoy family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 3,
+      "name": "Harry",
+      "surname": "Potter",
+      "family": "Potter family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 4,
+      "name": "Hermione",
+      "surname": "Granger",
+      "family": "Hermione family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 5,
+      "name": "Ronn",
+      "surname": "Weasley",
+      "family": "Weasley family",
+      "link": "/wiki_page"
+    },
+    {
+      "id": 6,
+      "name": "Voldemort",
+      "surname": "",
+      "family": "",
+      "link": "/wiki_page"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "login": "log",
+      "password": "pass",
+      "owned_card_ids": [
+        "1"
+      ],
+      "edited_card_ids": [
+        "2"
+      ],
+      "favor_card_ids": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "user_avatar": "images/Malfoy.png"
+    },
+    {
+      "login": "лдлл",
+      "password": "ргрг",
+      "id": "2"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "comment": "Жил был молодой человек"
+    },
+    {
+      "comment": "Он никогда не о чём не жалел",
+      "id": 2
+    },
+    {
+      "comment": "Любое его дело становилось очень успешным",
+      "id": 3
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

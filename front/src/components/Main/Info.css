@@ -1,0 +1,31 @@
+
+.info-aside {
+}
+
+.info-part-1 {
+    height: 800px;
+    position: relative;
+}
+
+.info-part-1-txt1 {
+    position: relative;
+    padding: 0px 80px 0px 40px;
+
+    max-width: 600px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+@media (max-width: 600px) {
+    .info-part-1-txt1 {
+        position: relative;
+        padding: 0px 20px;
+
+        font-size: 15px;
+        line-height: 20px;
+    }
+}
