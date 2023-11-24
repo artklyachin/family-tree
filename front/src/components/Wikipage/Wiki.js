@@ -4,6 +4,7 @@ import {LinkBlock, AdaptiveLinkBlock} from "../Auxiliary/LinkBlock";
 import { PublicationForm } from "./PublicationForm";
 import { PublicationItem } from "./PublicationItem";
 import { useState, useEffect } from "react";
+import { JSON_SERVER_PATH } from "../../Config"
 
 export function Wiki() {
     const [publicationsTexts, setPublicationsTexts] = useState();
@@ -12,11 +13,11 @@ export function Wiki() {
     useEffect(() => {
         (async () => {
 
-            const dataComments = await fetch(`http://localhost:3000/comments/`);
+            const dataComments = await fetch(JSON_SERVER_PATH + `/comments/`);
             const comments = await dataComments.json();
             setPublicationsTexts(comments);
 
-            const dataUser = await fetch(`http://localhost:3000/cards/1/`);
+            const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
             const name = await dataUser.json();
             setNameData(name);
         })();

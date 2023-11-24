@@ -1,18 +1,16 @@
 import {BrowserRouter, Routes, Route, Outlet} from 'react-router-dom';
 import {
-    HeaderHome,
-    HeaderHomeUserAuth,
-    HeaderInfo,
-    HeaderAuthIn,
-    HeaderAuthUp,
-    HeaderDesktop,
-    HeaderForgot,
-    HeaderSimple,
-    HeaderProfile,
-    HeaderWiki
-} from './components/Header';
-
-import {Footer} from './components/Footer';
+    HomeTemplate,
+    HomeTemplateUserAuth,
+    InfoTemplate,
+    AuthInTemplate,
+    AuthUpTemplate,
+    ForgotTemplate,
+    SimpleTemplate,
+    DesktopTemplate,
+    ProfileTemplate,
+    WikiTemplate,
+} from './components/Layout';
 
 import {Main} from './components/Main/Main';
 import {Info} from './components/Main/Info';
@@ -37,6 +35,8 @@ import './components/Auth/Profiles/Profile.css';
 import './components/Auth/Profiles/Wiki.css';
 import './components/Auxiliary/Auxiliary.css';
 import './components/Wikipage/Wiki.css';
+import {LinkBlock} from "./components/Auxiliary/LinkBlock";
+import {CircleImg} from "./components/Auxiliary/CircleImg";
 
 function App() {
 
@@ -47,112 +47,21 @@ function App() {
                 <Route element={<HomeTemplateUserAuth/>}><Route path="/user_auth" element={<Main/>} /></Route>
                 <Route element={<InfoTemplate/>}><Route path="/info" element={<Info/>} /></Route>
                 <Route element={<AuthInTemplate/>}><Route path="/auth_in" element={<AuthIn/>} /></Route>
-                <Route element={<AuthUpTemplate/>}><Route path="/auth_up" element={<AuthUp/>} /></Route>
-                <Route element={<ForgotTemplate/>}><Route path="/forgot" element={<Forgot/>} /></Route>
+                <Route element={<AuthUpTemplate/>} path="/">
+                    <Route path="/auth_up" element={<AuthUp/>} />
+                    <Route path="/forgot" element={<Forgot/>} />
+                </Route>
                 <Route element={<SimpleTemplate/>}><Route path="/change_password" element={<ChngPass/>} /></Route>
                 <Route element={<DesktopTemplate/>}><Route path="/desktop" element={<Desktop/>} /></Route>
                 <Route element={<ProfileTemplate/>}><Route path="/profile" element={<Profile/>} /></Route>
-                <Route element={<WikiTemplate/>}><Route path="/wiki_page" element={<Wiki/>} /></Route>
-                <Route element={<WikiTemplate/>}><Route path="/wiki_page/edit" element={<WikiEdit/>} /></Route>
+                <Route element={<WikiTemplate/>} path="/wiki_page">
+                    <Route index element={<Wiki/>} />
+                    <Route path="edit" element={<WikiEdit/>} />
+                </Route>
+
             </Routes>
         </BrowserRouter>
     );
 }
-
-const HomeTemplate = () => {
-    return (
-        //<link rel="icon" type="image/x-icon" href="https://www.adobe.com/express/feature/image/media_15960174677e9abd368c05a0e53f9cc5526099a27.png?width=2000&format=webply&optimize=medium"/>
-        <div>
-            <HeaderHome/>
-            <Outlet/>
-            <Footer/>
-        </div>
-    );
-}
-
-const HomeTemplateUserAuth = () => {
-    return (
-        //<link rel="icon" type="image/x-icon" href="https://www.adobe.com/express/feature/image/media_15960174677e9abd368c05a0e53f9cc5526099a27.png?width=2000&format=webply&optimize=medium"/>
-        <div>
-            <HeaderHomeUserAuth/>
-            <Outlet/>
-            <Footer/>
-        </div>
-    );
-}
-
-const InfoTemplate = () => {
-    return (
-        <div>
-            <HeaderInfo/>
-            <Outlet/>
-        </div>
-    );
-}
-
-const AuthInTemplate = () => {
-    return (
-        <div>
-            <HeaderAuthIn/>
-            <Outlet/>
-        </div>
-    );
-}
-
-const AuthUpTemplate = () => {
-    return (
-        <div>
-            <HeaderAuthUp/>
-            <Outlet/>
-        </div>
-    );
-}
-
-
-const ForgotTemplate = () => {
-    return (
-        <div>
-            <HeaderForgot/>
-            <Outlet/>
-        </div>
-    );
-}
-
-const SimpleTemplate = () => {
-    return (
-        <div>
-            <HeaderSimple/>
-            <Outlet/>
-        </div>
-    );
-}
-
-const DesktopTemplate = () => {
-    return (
-        <div>
-            <HeaderDesktop/>
-            <Outlet/>
-        </div>
-    );
-}
-
-const ProfileTemplate = () => {
-    return (
-        <div>
-            <HeaderProfile/>
-            <Outlet/>
-        </div>
-    );
-}
-
-const WikiTemplate = () => {
-    return (
-        <div>
-            <HeaderWiki/>
-            <Outlet/>
-        </div>
-    );
-}
-
 
 export default App;

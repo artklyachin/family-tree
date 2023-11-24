@@ -5,6 +5,7 @@ import { PublicationForm } from "./PublicationForm";
 import { PublicationItem } from "./PublicationItem";
 import { EditableItem } from "./EditableItem";
 import { useState, useEffect } from "react";
+import { JSON_SERVER_PATH } from "../../Config"
 
 export function WikiEdit() {
     const [publications, setPublications] = useState();
@@ -13,11 +14,11 @@ export function WikiEdit() {
     useEffect(() => {
         (async () => {
 
-            const data = await fetch(`http://localhost:3000/comments/`);
+            const data = await fetch(JSON_SERVER_PATH + `/comments/`);
             const posts = await data.json();
             setPublications(posts);
 
-            const dataUser = await fetch(`http://localhost:3000/cards/1/`);
+            const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
             const name = await dataUser.json();
             setNameData(name);
         })();
@@ -28,7 +29,7 @@ export function WikiEdit() {
             comment
         };
 
-        const response = await fetch("http://localhost:3000/comments", {
+        const response = await fetch(JSON_SERVER_PATH + "/comments", {
             method: "POST",
             body: JSON.stringify(values["comment"]),
             headers: {
@@ -46,7 +47,7 @@ export function WikiEdit() {
     const handleEdit = async (post) => {
         const norm_post = Object.assign({}, {id : post.id}, post.comment);
 
-        const response = await fetch(`http://localhost:3000/comments/${post.id}`, {
+        const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
             method: "PUT",
             body: JSON.stringify(norm_post),
             headers: {
@@ -65,7 +66,7 @@ export function WikiEdit() {
     };
 
     const handleDelete = async (post) => {
-        const response = await fetch(`http://localhost:3000/comments/${post.id}`, {
+        const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
             method: "DELETE",
             body: JSON.stringify(post),
             headers: {
@@ -90,7 +91,7 @@ export function WikiEdit() {
         norm_post.name = post.comment.comment
         console.log(norm_post)
 
-        const response = await fetch(`http://localhost:3000/cards/${post.id}`, {
+        const response = await fetch(JSON_SERVER_PATH + `/cards/${post.id}`, {
             method: "PUT",
             body: JSON.stringify(norm_post),
             headers: {

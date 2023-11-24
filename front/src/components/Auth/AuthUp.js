@@ -2,6 +2,7 @@ import {TextBlock} from "../Auxiliary/TextBlock";
 import {main_texts} from "../Main/main-texts";
 import {AdaptiveLinkBlock, LinkBlock} from "../Auxiliary/LinkBlock";
 import { AuthForm } from "./AuthForm";
+import {JSON_SERVER_PATH} from "../../Config"
 
 export function AuthUp() {
     const handleCreate = async (login, password) => {
@@ -10,7 +11,7 @@ export function AuthUp() {
             password,
         };
 
-        await fetch("http://localhost:3000/users", {
+        await fetch(JSON_SERVER_PATH + "/users", {
             method: "POST",
             body: JSON.stringify(values),
             headers: {
