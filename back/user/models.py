@@ -2,5 +2,5 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    avatar = models.ImageField(blank=True, upload_to="images/users")
+    avatar = models.ImageField(upload_to="images/users", default='images/card/avatar.png')
 

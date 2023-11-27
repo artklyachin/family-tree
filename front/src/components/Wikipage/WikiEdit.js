@@ -6,21 +6,26 @@ import { PublicationItem } from "./PublicationItem";
 import { EditableItem } from "./EditableItem";
 import { useState, useEffect } from "react";
 import { JSON_SERVER_PATH } from "../../Config"
+import {ApiService} from "../../services/ApiService";
 
-export function WikiEdit() {
+export function  WikiEdit() {
     const [publications, setPublications] = useState();
     const [nameData, setNameData] = useState();
 
     useEffect(() => {
         (async () => {
 
-            const data = await fetch(JSON_SERVER_PATH + `/comments/`);
-            const posts = await data.json();
-            setPublications(posts);
+            const data = await ApiService(`cards/1/`)
+            setPublications(data['comment_set']);
+            setNameData(data);
 
-            const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
-            const name = await dataUser.json();
-            setNameData(name);
+            // const data = await fetch(JSON_SERVER_PATH + `/comments/`);
+            // const posts = await data.json();
+            // setPublications(posts);
+            //
+            // const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
+            // const name = await dataUser.json();
+            // setNameData(name);
         })();
     }, []);
 
@@ -29,13 +34,20 @@ export function WikiEdit() {
             comment
         };
 
-        const response = await fetch(JSON_SERVER_PATH + "/comments", {
+        const response = await ApiService("/comment", {
             method: "POST",
             body: JSON.stringify(values["comment"]),
             headers: {
                 "Content-Type": "application/json",
             },
         });
+        // const response = await fetch(JSON_SERVER_PATH + "/comments", {
+        //     method: "POST",
+        //     body: JSON.stringify(values["comment"]),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // });
 
         const newPublication = await response.json();
 

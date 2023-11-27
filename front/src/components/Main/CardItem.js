@@ -7,7 +7,8 @@ export function CardItem( props  ) {
 
     return (
         <div>
-            <Link to={info.link} className="post">
+            {/*<Link to={info.link} className="post">*/}
+            <Link to="" className="post">
                 <div className="post_left">
                     <TextBlock text={info.name} className="post-name"/>
                     <TextBlock text={info.surname} className="post-name"/>

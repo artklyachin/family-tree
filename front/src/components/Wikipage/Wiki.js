@@ -5,6 +5,7 @@ import { PublicationForm } from "./PublicationForm";
 import { PublicationItem } from "./PublicationItem";
 import { useState, useEffect } from "react";
 import { JSON_SERVER_PATH } from "../../Config"
+import { ApiService } from "../../services/ApiService"
 
 export function Wiki() {
     const [publicationsTexts, setPublicationsTexts] = useState();
@@ -12,14 +13,17 @@ export function Wiki() {
 
     useEffect(() => {
         (async () => {
+            const data = await ApiService(`cards/1/`)
+            setPublicationsTexts(data['comment_set']);
+            setNameData(data);
 
-            const dataComments = await fetch(JSON_SERVER_PATH + `/comments/`);
-            const comments = await dataComments.json();
-            setPublicationsTexts(comments);
-
-            const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
-            const name = await dataUser.json();
-            setNameData(name);
+            // const dataComments = await fetch(JSON_SERVER_PATH + `/comments/`);
+            // const comments = await dataComments.json();
+            // setPublicationsTexts(comments);
+            //
+            // const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
+            // const name = await dataUser.json();
+            // setNameData(name);
         })();
     }, []);
 

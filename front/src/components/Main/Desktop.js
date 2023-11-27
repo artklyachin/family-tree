@@ -3,6 +3,7 @@ import {CircleImg} from "../Auxiliary/CircleImg";
 import {CardItem} from "./CardItem";
 import {useEffect, useState} from "react";
 import {JSON_SERVER_PATH} from "../../Config"
+import { ApiService } from "../../services/ApiService"
 
 import {PublicationItem} from "../Wikipage/PublicationItem";
 // function renderList() {
@@ -23,30 +24,39 @@ export function Desktop() {
     useEffect(() => {
         (async () => {
 
-            const user_info_json = await fetch(JSON_SERVER_PATH + `/users/1/`);
-            const user_info = await user_info_json.json();
+            // const user_info_json = await fetch(JSON_SERVER_PATH + `/users/1/`);
+            // const user_info = await user_info_json.json();
 
-            const owned_cards = [];
-            user_info.owned_card_ids?.map(async (index) => {
-                const data = await fetch(JSON_SERVER_PATH + `/cards/${index}`)
-                owned_cards.push(await data.json())
-                setOwnedCards(owned_cards);
-            });
+            // const owned_cards = [];
+            // user_info.owned_card_ids?.map(async (index) => {
+            //     const data = await fetch(JSON_SERVER_PATH + `/cards/${index}`)
+            //     owned_cards.push(await data.json())
+            //     setOwnedCards(owned_cards);
+            // });
             // setOwnedCards(owned_cards);
+            const owned_cards = await ApiService(`cards_owner/?user=1`)
+            setOwnedCards(owned_cards);
+            console.log(owned_cards)
 
-            const edited_cards = [];
-            user_info.edited_card_ids?.map(async (index) => {
-                const data = await fetch(JSON_SERVER_PATH + `/cards/${index}`)
-                edited_cards.push(await data.json());
-                setEditedCards(edited_cards);
-            });
+            // const edited_cards = [];
+            // user_info.edited_card_ids?.map(async (index) => {
+            //     const data = await fetch(JSON_SERVER_PATH + `/cards/${index}`)
+            //     edited_cards.push(await data.json());
+            //     setEditedCards(edited_cards);
+            // });
+            const edited_cards = await ApiService(`cards_edit/?user=1`)
+            setEditedCards(edited_cards);
+            console.log(edited_cards)
 
-            const favor_cards = [];
-            user_info.favor_card_ids?.map(async (index) => {
-                const data = await fetch(JSON_SERVER_PATH + `/cards/${index}`)
-                favor_cards.push(await data.json());
-                setFavorCards(favor_cards);
-            });
+            // const favor_cards = [];
+            // user_info.favor_card_ids?.map(async (index) => {
+            //     const data = await fetch(JSON_SERVER_PATH + `/cards/${index}`)
+            //     favor_cards.push(await data.json());
+            //     setFavorCards(favor_cards);
+            // });
+            const sub_cards = await ApiService(`cards_sub/?user=1`)
+            setFavorCards(sub_cards);
+            console.log(sub_cards)
 
         })();
     }, []);

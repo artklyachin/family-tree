@@ -17,15 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from card.views import CardViewSet
+from card.views import CardViewSet, CardListViewSet, CardOwnerViewSet, CardEditorsViewSet, CardSubscribersViewSet, CardViewersViewSet
 from comment.views import CommentViewSet
+from user.views import UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'cards', CardViewSet)
-router.register(r'comment', CommentViewSet)
+router.register(r'cards_list', CardListViewSet)
+router.register(r'cards_owner', CardOwnerViewSet)
+router.register(r'cards_edit', CardEditorsViewSet)
+router.register(r'cards_sub', CardSubscribersViewSet)
+router.register(r'cards_view', CardViewersViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include(router.urls)), 
 ]
 
