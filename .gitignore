@@ -5,12 +5,13 @@
 /env/
 
 # Django #
-/back/*.log
-/back/*.pot
-/back/*.pyc
-/back/__pycache__
-/back/db.sqlite3
-/back/media
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+images
+static
 
 # dependencies
 /front/node_modules

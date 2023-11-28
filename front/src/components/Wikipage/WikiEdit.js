@@ -15,7 +15,7 @@ export function  WikiEdit() {
     useEffect(() => {
         (async () => {
 
-            const data = await ApiService(`cards/1/`)
+            const data = await ApiService(`cards_with_comments/1/`)
             setPublications(data['comment_set']);
             setNameData(data);
 
@@ -34,13 +34,14 @@ export function  WikiEdit() {
             comment
         };
 
-        const response = await ApiService("/comment", {
-            method: "POST",
-            body: JSON.stringify(values["comment"]),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        const response = 0;
+        // const response = await ApiService("/comment", {
+        //     method: "POST",
+        //     body: JSON.stringify(values["comment"]),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // });
         // const response = await fetch(JSON_SERVER_PATH + "/comments", {
         //     method: "POST",
         //     body: JSON.stringify(values["comment"]),
@@ -59,13 +60,14 @@ export function  WikiEdit() {
     const handleEdit = async (post) => {
         const norm_post = Object.assign({}, {id : post.id}, post.comment);
 
-        const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
-            method: "PUT",
-            body: JSON.stringify(norm_post),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        const response = 0;
+        // const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
+        //     method: "PUT",
+        //     body: JSON.stringify(norm_post),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // });
         const updatedPublication = await response.json();
 
         const publicationIdx = publications.findIndex(
@@ -78,13 +80,15 @@ export function  WikiEdit() {
     };
 
     const handleDelete = async (post) => {
-        const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
-            method: "DELETE",
-            body: JSON.stringify(post),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+
+        const response = 0;
+        // const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
+        //     method: "DELETE",
+        //     body: JSON.stringify(post),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // });
         const updatedPublication = await response.json();
 
         const publicationIdx = publications.findIndex(
@@ -99,18 +103,18 @@ export function  WikiEdit() {
 
     const handleEditName = async (post) => {
         console.log(nameData)
-        const norm_post = nameData
+        const {comment_set, image, ...norm_post} = nameData
         norm_post.name = post.comment.comment
-        console.log(norm_post)
 
-        const response = await fetch(JSON_SERVER_PATH + `/cards/${post.id}`, {
+        const response = await ApiService("cards/1/", {
             method: "PUT",
             body: JSON.stringify(norm_post),
             headers: {
                 "Content-Type": "application/json",
             },
         });
-        const updated = await response.json();
+        // Не вернул comment_set и image обратно
+        const updated = response;
 
         setNameData(updated);
     };

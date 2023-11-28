@@ -4,6 +4,12 @@ from .models import Card
 from comment.serializers import CommentSerializer
 
 class CardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Card
+        fields = ['name', 'surname', 'family', 'owner', 'editors', 'subscribers', 'viewers']
+
+class CardWithCommentsSerializer(serializers.ModelSerializer):
     #user = UserSerializer()
     comment_set = CommentSerializer(many=True)
 

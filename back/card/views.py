@@ -1,12 +1,16 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics, mixins
-from .serializers import CardSerializer, CardListSerializer, CardPermissionSerializer
+from rest_framework import viewsets, generics, mixins, permissions
+from .serializers import CardSerializer, CardListSerializer, CardPermissionSerializer, CardWithCommentsSerializer
 from .models import Card
 
 # Create your views here.
  
-class CardViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin ):
+class CardViewSet( viewsets.ModelViewSet ):
   serializer_class = CardSerializer
+  queryset = Card.objects.all()
+
+class CardWithCommentsViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin ):
+  serializer_class = CardWithCommentsSerializer
   queryset = Card.objects.all()
 
 class CardListViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):

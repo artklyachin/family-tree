@@ -17,22 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from card.views import CardViewSet, CardListViewSet, CardOwnerViewSet, CardEditorsViewSet, CardSubscribersViewSet, CardViewersViewSet
+from card.views import CardViewSet, CardListViewSet, CardOwnerViewSet, CardEditorsViewSet, CardSubscribersViewSet, CardViewersViewSet, CardWithCommentsViewSet
 from comment.views import CommentViewSet
-from user.views import UserViewSet
+from user.views import UserViewSet, UserViewSetCardSet
 
 router = routers.DefaultRouter()
 router.register(r'cards', CardViewSet)
+router.register(r'cards_with_comments', CardWithCommentsViewSet)
 router.register(r'cards_list', CardListViewSet)
 router.register(r'cards_owner', CardOwnerViewSet)
 router.register(r'cards_edit', CardEditorsViewSet)
 router.register(r'cards_sub', CardSubscribersViewSet)
 router.register(r'cards_view', CardViewersViewSet)
 router.register(r'comments', CommentViewSet)
+router.register(r'users_card_set', UserViewSetCardSet)
 router.register(r'users', UserViewSet)
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)), 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
