@@ -12,6 +12,7 @@ class CardViewSet( viewsets.ModelViewSet ):
 class CardWithCommentsViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin ):
   serializer_class = CardWithCommentsSerializer
   queryset = Card.objects.all()
+  permission_classes = [permissions.IsAuthenticated]
 
 class CardListViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
   serializer_class = CardListSerializer

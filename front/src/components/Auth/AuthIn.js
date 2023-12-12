@@ -2,7 +2,32 @@ import {TextBlock} from "../Auxiliary/TextBlock";
 import {main_texts} from "../Main/main-texts";
 import {LinkBlock, AdaptiveLinkBlock} from "../Auxiliary/LinkBlock";
 import { AuthForm } from "./AuthForm";
+import {ApiService} from "../../services/ApiService";
 
+
+const handleLogin = async (login, password) => {
+    const values = {}
+
+    // await fetch(JSON_SERVER_PATH + "/users", {
+    //     method: "POST",
+    //     body: JSON.stringify(values),
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    // });
+
+    const { access, refresh } = await ApiService("token/", {
+        method: "Post",
+        body: JSON.stringify({username : login, password : password} ),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    window.localStorage.setItem('access', access)
+    window.localStorage.setItem('refresh', refresh)
+    window.location.href = "/"
+};
 export function AuthIn() {
     return (
         <div className='auth-aside'>

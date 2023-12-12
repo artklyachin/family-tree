@@ -40,6 +40,9 @@ import {CircleImg} from "./components/Auxiliary/CircleImg";
 
 function App() {
 
+    const isAuth = window.localStorage.getItem("access")
+
+
     return (
         <BrowserRouter>
             <Routes>
@@ -52,6 +55,7 @@ function App() {
                     <Route path="/forgot" element={<Forgot/>} />
                 </Route>
                 <Route element={<SimpleTemplate/>}><Route path="/change_password" element={<ChngPass/>} /></Route>
+                {/*{isAuth && <Route element={<DesktopTemplate/>}><Route path="/desktop" element={<Desktop/>} /></Route>}*/}
                 <Route element={<DesktopTemplate/>}><Route path="/desktop" element={<Desktop/>} /></Route>
                 <Route element={<ProfileTemplate/>}><Route path="/profile" element={<Profile/>} /></Route>
                 <Route element={<WikiTemplate/>} path="/wiki_page">

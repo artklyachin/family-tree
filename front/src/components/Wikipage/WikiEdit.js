@@ -5,7 +5,6 @@ import { PublicationForm } from "./PublicationForm";
 import { PublicationItem } from "./PublicationItem";
 import { EditableItem } from "./EditableItem";
 import { useState, useEffect } from "react";
-import { JSON_SERVER_PATH } from "../../Config"
 import {ApiService} from "../../services/ApiService";
 
 export function  WikiEdit() {

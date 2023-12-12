@@ -18,8 +18,8 @@ export function AuthForm(props) {
     };
 
     const handleChangePassword = (event) => {
-        if (event.target.value.length > 8) {
-            setErrorPassword("Пароль не может быть больше 8 символов");
+        if (event.target.value.length > 20) {
+            setErrorPassword("Пароль не может быть больше 20 символов");
         } else {
             setErrorPassword("");
             setPassword(event.target.value);

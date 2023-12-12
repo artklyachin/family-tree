@@ -2,7 +2,6 @@ import {TextBlock} from "../Auxiliary/TextBlock";
 import {CircleImg} from "../Auxiliary/CircleImg";
 import {CardItem} from "./CardItem";
 import {useEffect, useState} from "react";
-import {JSON_SERVER_PATH} from "../../Config"
 import { ApiService } from "../../services/ApiService"
 
 import {PublicationItem} from "../Wikipage/PublicationItem";
@@ -35,7 +34,7 @@ export function Desktop() {
             // });
             // setOwnedCards(owned_cards);
             const owned_cards = await ApiService(`cards_owner/?user=1`)
-            setOwnedCards(owned_cards);
+            setOwnedCards(owned_cards)
             console.log(owned_cards)
 
             // const edited_cards = [];
@@ -46,7 +45,6 @@ export function Desktop() {
             // });
             const edited_cards = await ApiService(`cards_edit/?user=1`)
             setEditedCards(edited_cards);
-            console.log(edited_cards)
 
             // const favor_cards = [];
             // user_info.favor_card_ids?.map(async (index) => {
@@ -56,7 +54,6 @@ export function Desktop() {
             // });
             const sub_cards = await ApiService(`cards_sub/?user=1`)
             setFavorCards(sub_cards);
-            console.log(sub_cards)
 
         })();
     }, []);
@@ -67,19 +64,19 @@ export function Desktop() {
             <TextBlock text="your own page" className="section-section-name"/>
             <div className="post-grid">
                 {ownedCards?.map((item) => (
-                    <CardItem key={item.id} info={item}/>
+                    <CardItem key={item.id} info={item} to="/wiki_page"/>
                 ))}
             </div>
             <TextBlock text="pages with edit access" className="section-section-name"/>
             <div className="post-grid">
                 {editedCards?.map((item) => (
-                    <CardItem key={item.id} info={item}/>
+                    <CardItem key={item.id} info={item} to="/wiki_page"/>
                 ))}
             </div>
-            <TextBlock text="favorite ⭐" className="section-section-name" to="/wiki_page"/>
+            <TextBlock text="favorite ⭐" className="section-section-name"/>
             <div className="post-grid">
                 {favorCards?.map((item) => (
-                    <CardItem key={item.id} info={item}/>
+                    <CardItem key={item.id} info={item} to="/wiki_page"/>
                 ))}
             </div>
         </div>

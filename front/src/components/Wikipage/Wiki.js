@@ -4,7 +4,6 @@ import {LinkBlock, AdaptiveLinkBlock} from "../Auxiliary/LinkBlock";
 import { PublicationForm } from "./PublicationForm";
 import { PublicationItem } from "./PublicationItem";
 import { useState, useEffect } from "react";
-import { JSON_SERVER_PATH } from "../../Config"
 import { ApiService } from "../../services/ApiService"
 
 export function Wiki() {
@@ -13,7 +12,7 @@ export function Wiki() {
 
     useEffect(() => {
         (async () => {
-            const data = await ApiService(`cards/1/`)
+            const data = await ApiService(`cards_with_comments/1/`)
             setPublicationsTexts(data['comment_set']);
             setNameData(data);
 
