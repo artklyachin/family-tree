@@ -1,8 +1,16 @@
 //import {LinkBlock} from './LinkBlock';
 import {Link, Outlet} from 'react-router-dom';
 import { LinkBlock } from './Auxiliary/LinkBlock'
-import {CircleImg} from "./Auxiliary/CircleImg";
+import {AvatarBlock, CircleImg, CircleImgBlock} from "./Auxiliary/CircleImg";
 import {TextBlock} from "./Auxiliary/TextBlock";
+import {ApiService, IsAuthorized, Logout} from "../services/ApiService";
+import {useEffect, useState} from "react";
+
+export async function getAvater() {
+    const new_data = await ApiService(`users/2/`)
+    console.log(new_data.avatar)
+    return new_data.avatar;
+}
 
 export function Footer() {
     return (
@@ -13,7 +21,7 @@ export function Footer() {
                 <LinkBlock elements='Telegram' href='https://t.me/koteika2020' className='footer-up-link'/>
             </div>
             <div className="footer-down">
-                <img src={require('../images/img-footer-NPR.jpg')} className="footer-NPR-picture" alt="NPR_logo" />
+                <img src={require("../images/img-footer-NPR.jpg")} className="footer-NPR-picture" alt="NPR_logo" />
             </div>
         </footer>
     );
@@ -30,31 +38,23 @@ export function Header_template({ innerContent } ) {
     );
 }
 
-export const HomeTemplate = () => {
+export function HomeTemplate() {
     return (
-        //<link rel="icon" type="image/x-icon" href="https://www.adobe.com/express/feature/image/media_15960174677e9abd368c05a0e53f9cc5526099a27.png?width=2000&format=webply&optimize=medium"/>
         <div>
-            <Header_template innerContent={<div className="header-right">
-                <LinkBlock elements='desktop' to='/desktop' className='header-components' />
-                <LinkBlock elements='product' to='/info' className='header-components' />
-                <LinkBlock elements='Get started' to='/auth_in' className='header-autorisation' />
-            </div>}/>
-            <Outlet/>
-            <Footer/>
-        </div>
-    );
-}
-
-export const HomeTemplateUserAuth = () => {
-    return (
-        //<link rel="icon" type="image/x-icon" href="https://www.adobe.com/express/feature/image/media_15960174677e9abd368c05a0e53f9cc5526099a27.png?width=2000&format=webply&optimize=medium"/>
-        <div>
-            <Header_template innerContent={<div className="header-right">
-                <LinkBlock elements='desktop' to='/desktop' className='header-components' />
-                <LinkBlock elements='product' to='/info' className='header-components' />
-                <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
-                <LinkBlock elements={<CircleImg imgUrl={require("../images/Malfoy.png")}/>} to='/profile' className='header-avatar' />
-            </div>}/>
+            {!IsAuthorized() ?
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='desktop' to='/desktop' className='header-components'/>
+                    <LinkBlock elements='product' to='/info' className='header-components'/>
+                    <LinkBlock elements='Get started' to='/auth_in' className='header-autorisation'/>
+                </div>}/>
+                :
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='desktop' to='/desktop' className='header-components'/>
+                    <LinkBlock elements='product' to='/info' className='header-components'/>
+                    <LinkBlock elements='Malfoy' to='/profile' className='header-name'/>
+                    <AvatarBlock userUrl='users/2/'/>
+                </div>}/>
+            }
             <Outlet/>
             <Footer/>
         </div>
@@ -64,9 +64,16 @@ export const HomeTemplateUserAuth = () => {
 export const InfoTemplate = () => {
     return (
         <div>
-            <Header_template innerContent={<div className="header-right">
-                <LinkBlock elements='Get started' to='/auth_in' className='header-autorisation' />
-            </div>}/>
+            { !IsAuthorized() ?
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='Get started' to='/auth_in' className='header-autorisation' />
+                </div>}/>
+            :
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
+                    <AvatarBlock userUrl='users/2/'/>
+                </div>}/>
+            }
             <Outlet/>
         </div>
     );
@@ -75,9 +82,16 @@ export const InfoTemplate = () => {
 export const AuthInTemplate = () => {
     return (
         <div>
-            <Header_template innerContent={<div className="header-right">
-                <LinkBlock elements='sing up' to='/auth_up' className='header-components header-auth'/>
-            </div>}/>
+            { !IsAuthorized() ?
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='sing up' to='/auth_up' className='header-components header-auth'/>
+                </div>}/>
+            :
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
+                    <AvatarBlock userUrl='users/2/'/>
+                </div>}/>
+            }
             <Outlet/>
         </div>
     );
@@ -106,9 +120,16 @@ export const SimpleTemplate = () => {
 export const DesktopTemplate = () => {
     return (
         <div>
-            <Header_template innerContent={<div className="header-right">
-                <LinkBlock elements='profile' to='/profile' className='header-components'/>
-            </div>}/>
+            { !IsAuthorized() ?
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements={'sing in'} to='/auth_in' className='header-components'/>
+                </div>}/>
+            :
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
+                    <AvatarBlock userUrl='users/2/'/>
+                </div>}/>
+            }
             <Outlet/>
         </div>
     );
@@ -117,9 +138,15 @@ export const DesktopTemplate = () => {
 export const ProfileTemplate = () => {
     return (
         <div>
-            <Header_template innerContent={<div className="header-right">
-                <LinkBlock elements='desktop' to='/desktop' className='header-components' />
-            </div>}/>
+            { !IsAuthorized() ?
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='sing in' to='/auth_in' className='header-components header-auth'/>
+                </div>}/>
+            :
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='desktop' to='/desktop' className='header-components' />
+                </div>}/>
+            }
             <Outlet/>
         </div>
     );
@@ -128,10 +155,17 @@ export const ProfileTemplate = () => {
 export const WikiTemplate = () => {
     return (
         <div>
-            <Header_template innerContent={<div className="header-right">
-                <LinkBlock elements='desktop' to='/desktop' className='header-components' />
-                <LinkBlock elements='profile' to='/profile' className='header-components'/>
-            </div>}/>
+            { !IsAuthorized() ?
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='sing in' to='/auth_in' className='header-components' />
+                </div>}/>
+            :
+                <Header_template innerContent={<div className="header-right">
+                    <LinkBlock elements='desktop' to='/desktop' className='header-components' />
+                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
+                    <AvatarBlock userUrl='users/2/'/>
+                </div>}/>
+            }
             <Outlet/>
         </div>
     );

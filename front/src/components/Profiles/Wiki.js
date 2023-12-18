@@ -1,4 +1,4 @@
-import {TextBlock} from "../../Auxiliary/TextBlock";
+import {TextBlock} from "../Auxiliary/TextBlock";
 
 export function Wiki() {
     return (

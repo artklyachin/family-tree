@@ -1,8 +1,9 @@
 
 export async function ApiService(url, params = {}) {
 
-    const refreshToken = window.localStorage.getItem("refresh");
-    const accessToken = window.localStorage.getItem("access");
+    console.log(url)
+    let refreshToken = window.localStorage.getItem("refresh");
+    let accessToken = window.localStorage.getItem("access");
     const newParams = {
         ...params
     };
@@ -10,30 +11,16 @@ export async function ApiService(url, params = {}) {
         newParams.headers = {}
     }
     if (accessToken) {
-        console.log(newParams)
         newParams.headers.Authorization = `Bearer ${accessToken}`;
-        console.log(3 + accessToken)
     }
     const response = await fetch(`http://127.0.0.1:8000/api/${url}`, newParams);
     let data = null;
-    if (response.status === 401 && refreshToken) {
-        const refreshData = await fetch(
-            `http://127.0.0.1:8000/api/token/refresh/`,
-            {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    refresh: refreshToken,
-                }),
-            }
-        );
-        const { access } = await refreshData.json();
-        console.log(access);
-        window.localStorage.setItem("access", access);
 
-        newParams.headers.Authorization = `Bearer ${access}`;
+    if (response.status === 401 && refreshToken) {
+        await RefreshToken();
+
+        accessToken = window.localStorage.getItem("access");
+        newParams.headers.Authorization = `Bearer ${accessToken}`;
         const newresponse = await fetch(`http://127.0.0.1:8000/api/${url}`, newParams);
         data = await newresponse.json();
     } else {
@@ -42,5 +29,43 @@ export async function ApiService(url, params = {}) {
     return data;
 
 }
-//             const data = ApiService(`cards/1/`)
-// import { A } from "../../services/ApiService"
+export async function RefreshToken() {
+    const refreshToken = window.localStorage.getItem("refresh");
+    const refreshData = await fetch(
+        `http://127.0.0.1:8000/api/token/refresh/`,
+        {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                refresh: refreshToken,
+            }),
+        }
+    );
+    let data = await refreshData.json();
+    if (refreshData.status === 401) {
+        await Logout();
+    } else {
+        window.localStorage.setItem("access", data.access);
+    }
+}
+
+// export async function CheckToken() {
+//     const refreshToken = window.localStorage.getItem("refresh");
+//     const accessToken = window.localStorage.getItem("access");
+//     const params = {header: {}};
+//     if (accessToken) {
+//         params.headers.Authorization = `Bearer ${accessToken}`;
+//     }
+// }
+
+export function IsAuthorized() {
+    return (window.localStorage.getItem('access') ? 1 : 0);
+}
+
+export function Logout() {
+    window.localStorage.removeItem("access")
+    window.localStorage.removeItem("refresh")
+    window.location.href = "/auth_in"
+}

@@ -1,7 +1,8 @@
-import {TextBlock} from "../../Auxiliary/TextBlock";
-import {CircleImg} from "../../Auxiliary/CircleImg"
+import {TextBlock} from "../Auxiliary/TextBlock";
+import {CircleImg} from "../Auxiliary/CircleImg"
 import React, {useEffect, useState} from "react";
-import {ApiService} from "../../../services/ApiService";
+import {ApiService, Logout} from "../../services/ApiService";
+import {Link} from "react-router-dom";
 
 export function Profile() {
 
@@ -14,19 +15,10 @@ export function Profile() {
 
     useEffect(() => {
         (async () => {
-            console.log("gg")
             const new_data = await ApiService(`users/2/`)
             setData(new_data);
-            console.log(new_data)
             setImgUrl(new_data.avatar)
 
-            // const dataComments = await fetch(JSON_SERVER_PATH + `/comments/`);
-            // const comments = await dataComments.json();
-            // setPublicationsTexts(comments);
-            //
-            // const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
-            // const name = await dataUser.json();
-            // setNameData(name);
         })();
     }, []);
 
@@ -55,6 +47,8 @@ export function Profile() {
         setImgUrl(responce.avatar)
     };
 
+
+
     return (
         <div className='profile-aside'>
             <div className='profile-field'>
@@ -80,6 +74,9 @@ export function Profile() {
                             onClick={(e) => doSubmit(e)}/>
                 </div>
             </div>
+            <Link className='header-components header-auth' to='/' onClick={(e) => Logout()}>
+                Logout
+            </Link>
         </div>
     );
 }

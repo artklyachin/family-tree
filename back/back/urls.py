@@ -17,18 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from card.views import CardViewSet, CardListViewSet, CardOwnerViewSet, CardEditorsViewSet, CardSubscribersViewSet, CardViewersViewSet, CardWithCommentsViewSet
+from card.views import CardViewSet, CardOwnerViewSet, CardEditorsViewSet, CardSubscribersViewSet, CardViewersViewSet, CardWithCommentsViewSet
 from comment.views import CommentViewSet
 from user.views import UserViewSet, UserViewSetCardSet, UserViewReg
 
 router = routers.DefaultRouter()
-router.register(r'cards', CardViewSet)
-router.register(r'cards_with_comments', CardWithCommentsViewSet)
-router.register(r'cards_list', CardListViewSet)
+router.register(r'cards', CardViewSet) #все card со всеми полями 
+router.register(r'cards_with_comments', CardWithCommentsViewSet) #cards_list со списками комментариев 
+# router.register(r'cards_list', CardListViewSet) #все card со всеми полями
+# фильтрация по спискам
 router.register(r'cards_owner', CardOwnerViewSet)
 router.register(r'cards_edit', CardEditorsViewSet)
 router.register(r'cards_sub', CardSubscribersViewSet)
 router.register(r'cards_view', CardViewersViewSet)
+
 router.register(r'comments', CommentViewSet)
 router.register(r'users_card_set', UserViewSetCardSet)
 router.register(r'users', UserViewSet)

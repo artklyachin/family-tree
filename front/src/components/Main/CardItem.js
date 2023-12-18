@@ -4,6 +4,7 @@ import {CircleImg} from "../Auxiliary/CircleImg";
 
 export function CardItem( { info, to = "" }  ) {
 
+    console.log(info.image)
     return (
         <div>
             {/*<Link to={info.link} className="post">*/}
@@ -13,7 +14,7 @@ export function CardItem( { info, to = "" }  ) {
                     <TextBlock text={info.surname} className="post-name"/>
                     <TextBlock text={info.family} className="post-family"/>
                 </div>
-                <CircleImg imgUrl={require("../../images/Malfoy.png")}/>
+                <CircleImg imgUrl={info.image}/>
             </Link>
         </div>
     );

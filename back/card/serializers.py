@@ -7,7 +7,7 @@ class CardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Card
-        fields = ['name', 'surname', 'family', 'owner', 'editors', 'subscribers', 'viewers']
+        fields = '__all__'
 
 class CardWithCommentsSerializer(serializers.ModelSerializer):
     #user = UserSerializer()

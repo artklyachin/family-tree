@@ -1,7 +1,6 @@
 import {BrowserRouter, Routes, Route, Outlet} from 'react-router-dom';
 import {
     HomeTemplate,
-    HomeTemplateUserAuth,
     InfoTemplate,
     AuthInTemplate,
     AuthUpTemplate,
@@ -19,7 +18,7 @@ import {AuthUp} from './components/Auth/AuthUp';
 import {Forgot} from "./components/Auth/Forgot";
 import {ChngPass} from "./components/Auth/ChngPass";
 import {Desktop} from './components/Main/Desktop';
-import {Profile} from './components/Auth/Profiles/Profile';
+import {Profile} from './components/Profiles/Profile';
 import {Wiki} from './components/Wikipage/Wiki';
 import {WikiEdit} from './components/Wikipage/WikiEdit';
 
@@ -31,8 +30,8 @@ import './components/Main/Info.css';
 import './components/Main/Desktop.css';
 import './components/Main/CardItem.css';
 import './components/Auth/Auth.css';
-import './components/Auth/Profiles/Profile.css';
-import './components/Auth/Profiles/Wiki.css';
+import './components/Profiles/Profile.css';
+import './components/Profiles/Wiki.css';
 import './components/Auxiliary/Auxiliary.css';
 import './components/Wikipage/Wiki.css';
 import {LinkBlock} from "./components/Auxiliary/LinkBlock";
@@ -47,7 +46,6 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route element={<HomeTemplate/>}><Route path="" element={<Main/>} /></Route>
-                <Route element={<HomeTemplateUserAuth/>}><Route path="/user_auth" element={<Main/>} /></Route>
                 <Route element={<InfoTemplate/>}><Route path="/info" element={<Info/>} /></Route>
                 <Route element={<AuthInTemplate/>}><Route path="/auth_in" element={<AuthIn/>} /></Route>
                 <Route element={<AuthUpTemplate/>} path="/">
