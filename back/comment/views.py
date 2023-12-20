@@ -14,8 +14,3 @@ class CommentViewSet(viewsets.ModelViewSet):
   def perform_create(self, serializer):
     serializer.user = self.request.user
     return super().perform_create(serializer)
-
-  # def get_queryset(self):
-  #   if 'card' in self.request.query_params:
-  #     return Comment.objects.filter(card_id=self.request.query_params['card'])
-  #   return super().get_queryset()

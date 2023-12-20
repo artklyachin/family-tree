@@ -1,15 +1,13 @@
 //import {LinkBlock} from './LinkBlock';
-import {Link, Outlet} from 'react-router-dom';
-import { LinkBlock } from './Auxiliary/LinkBlock'
-import {AvatarBlock, CircleImg, CircleImgBlock} from "./Auxiliary/CircleImg";
+import {Outlet} from 'react-router-dom';
+import {LinkBlock} from './Auxiliary/LinkBlock'
+import {AvatarBlock, CircleImg} from "./Auxiliary/CircleImg";
 import {TextBlock} from "./Auxiliary/TextBlock";
-import {ApiService, IsAuthorized, Logout} from "../services/ApiService";
+import {ApiService, IsAuthorized} from "../services/ApiService";
 import {useEffect, useState} from "react";
 
-export async function getAvater() {
-    const new_data = await ApiService(`users/2/`)
-    console.log(new_data.avatar)
-    return new_data.avatar;
+export async function getCurrentUser() {
+    return await ApiService(`current_user/`);
 }
 
 export function Footer() {
@@ -27,18 +25,30 @@ export function Footer() {
     );
 }
 export function Header_template({ innerContent } ) {
-    if (arguments.length == 0) {
+    if (arguments.length === 0) {
         innerContent = {}
     }
     return (
         <header className='header'>
-            <LinkBlock elements='Ys' to='' className='header-logo'/>
+            <LinkBlock elements='Ys' to='/' className='header-logo'/>
             {innerContent}
         </header>
     );
 }
 
 export function HomeTemplate() {
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+                console.log(user)
+            }
+        })();
+    }, []);
+
+
     return (
         <div>
             {!IsAuthorized() ?
@@ -51,8 +61,8 @@ export function HomeTemplate() {
                 <Header_template innerContent={<div className="header-right">
                     <LinkBlock elements='desktop' to='/desktop' className='header-components'/>
                     <LinkBlock elements='product' to='/info' className='header-components'/>
-                    <LinkBlock elements='Malfoy' to='/profile' className='header-name'/>
-                    <AvatarBlock userUrl='users/2/'/>
+                    <LinkBlock elements={user.first_name} to='/profile' className='header-name'/>
+                    <LinkBlock elements={<CircleImg imgUrl={user.avatar}/>} to='/profile' className='header-avatar'/>
                 </div>}/>
             }
             <Outlet/>
@@ -62,6 +72,16 @@ export function HomeTemplate() {
 }
 
 export const InfoTemplate = () => {
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+            }
+        })();
+    }, []);
+
     return (
         <div>
             { !IsAuthorized() ?
@@ -70,8 +90,8 @@ export const InfoTemplate = () => {
                 </div>}/>
             :
                 <Header_template innerContent={<div className="header-right">
-                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
-                    <AvatarBlock userUrl='users/2/'/>
+                    <LinkBlock elements={user.first_name} to='/profile' className='header-name'/>
+                    <LinkBlock elements={<CircleImg imgUrl={user.avatar}/>} to='/profile' className='header-avatar'/>
                 </div>}/>
             }
             <Outlet/>
@@ -80,6 +100,16 @@ export const InfoTemplate = () => {
 }
 
 export const AuthInTemplate = () => {
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+            }
+        })();
+    }, []);
+
     return (
         <div>
             { !IsAuthorized() ?
@@ -88,8 +118,8 @@ export const AuthInTemplate = () => {
                 </div>}/>
             :
                 <Header_template innerContent={<div className="header-right">
-                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
-                    <AvatarBlock userUrl='users/2/'/>
+                    <LinkBlock elements={user.first_name} to='/profile' className='header-name'/>
+                    <LinkBlock elements={<CircleImg imgUrl={user.avatar}/>} to='/profile' className='header-avatar'/>
                 </div>}/>
             }
             <Outlet/>
@@ -118,6 +148,16 @@ export const SimpleTemplate = () => {
 }
 
 export const DesktopTemplate = () => {
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+            }
+        })();
+    }, []);
+
     return (
         <div>
             { !IsAuthorized() ?
@@ -126,8 +166,8 @@ export const DesktopTemplate = () => {
                 </div>}/>
             :
                 <Header_template innerContent={<div className="header-right">
-                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
-                    <AvatarBlock userUrl='users/2/'/>
+                    <LinkBlock elements={user.first_name} to='/profile' className='header-name'/>
+                    <LinkBlock elements={<CircleImg imgUrl={user.avatar}/>} to='/profile' className='header-avatar'/>
                 </div>}/>
             }
             <Outlet/>
@@ -136,6 +176,16 @@ export const DesktopTemplate = () => {
 }
 
 export const ProfileTemplate = () => {
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+            }
+        })();
+    }, []);
+
     return (
         <div>
             { !IsAuthorized() ?
@@ -153,6 +203,16 @@ export const ProfileTemplate = () => {
 }
 
 export const WikiTemplate = () => {
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+            }
+        })();
+    }, []);
+
     return (
         <div>
             { !IsAuthorized() ?
@@ -162,8 +222,8 @@ export const WikiTemplate = () => {
             :
                 <Header_template innerContent={<div className="header-right">
                     <LinkBlock elements='desktop' to='/desktop' className='header-components' />
-                    <LinkBlock elements='Malfoy' to='/profile' className='header-name' />
-                    <AvatarBlock userUrl='users/2/'/>
+                    <LinkBlock elements={user.first_name} to='/profile' className='header-name'/>
+                    <LinkBlock elements={<CircleImg imgUrl={user.avatar}/>} to='/profile' className='header-avatar'/>
                 </div>}/>
             }
             <Outlet/>

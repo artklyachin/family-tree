@@ -5,6 +5,8 @@ export function AuthForm(props) {
     const { onSuccess, formTitle, defaultLogin, defaultPassword } = props;
     const [login, setLogin] = useState(defaultLogin);
     const [password, setPassword] = useState(defaultPassword);
+    const [first_name, setFirstName] = useState(defaultLogin);
+    const [last_name, setLastName] = useState(defaultPassword);
     const [errorLogin, setErrorLogin] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
 

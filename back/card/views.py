@@ -1,25 +1,20 @@
 from django.shortcuts import render
 from rest_framework import viewsets, generics, mixins, permissions
-from .serializers import CardSerializer, CardListSerializer, CardPermissionSerializer, CardWithCommentsSerializer
+from .serializers import CardSerializer, CardWithCommentsSerializer
 from .models import Card
 
 # Create your views here.
- 
 class CardViewSet( viewsets.ModelViewSet ):
   serializer_class = CardSerializer
   queryset = Card.objects.all()
 
-class CardWithCommentsViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin ):
+class CardWithCommentsViewSet( viewsets.ModelViewSet ):
   serializer_class = CardWithCommentsSerializer
   queryset = Card.objects.all()
   permission_classes = [permissions.IsAuthenticated]
-
-# class CardListViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
-#   serializer_class = CardListSerializer
-#   queryset = Card.objects.all()
   
 class CardOwnerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
-  serializer_class = CardPermissionSerializer
+  serializer_class = CardSerializer
   queryset = Card.objects.all()
 
   # фильтруем по user по owner
@@ -29,7 +24,7 @@ class CardOwnerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
     return super().get_queryset()
   
 class CardEditorsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
-  serializer_class = CardPermissionSerializer
+  serializer_class = CardSerializer
   queryset = Card.objects.all()
 
   # фильтруем по user по списку editors
@@ -39,7 +34,7 @@ class CardEditorsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
     return super().get_queryset()
   
 class CardSubscribersViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
-  serializer_class = CardPermissionSerializer
+  serializer_class = CardSerializer
   queryset = Card.objects.all()
 
   # фильтруем по user по списку subscribers
@@ -49,7 +44,7 @@ class CardSubscribersViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
     return super().get_queryset()
   
 class CardViewersViewSet(viewsets.GenericViewSet, mixins.ListModelMixin ):
-  serializer_class = CardPermissionSerializer
+  serializer_class = CardSerializer
   queryset = Card.objects.all()
 
   # фильтруем по user по списку viewers

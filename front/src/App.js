@@ -31,7 +31,6 @@ import './components/Main/Desktop.css';
 import './components/Main/CardItem.css';
 import './components/Auth/Auth.css';
 import './components/Profiles/Profile.css';
-import './components/Profiles/Wiki.css';
 import './components/Auxiliary/Auxiliary.css';
 import './components/Wikipage/Wiki.css';
 import {LinkBlock} from "./components/Auxiliary/LinkBlock";
@@ -57,9 +56,11 @@ function App() {
                 <Route element={<DesktopTemplate/>}><Route path="/desktop" element={<Desktop/>} /></Route>
                 <Route element={<ProfileTemplate/>}><Route path="/profile" element={<Profile/>} /></Route>
                 <Route element={<WikiTemplate/>} path="/wiki_page">
-                    <Route index element={<Wiki/>} />
-                    <Route path="edit" element={<WikiEdit/>} />
+                    <Route path=":page" element={<Wiki/>} />
+                    <Route path="edit/:page" element={<WikiEdit/>} />
                 </Route>
+
+                {/*path="/posts/:page"*/}
 
             </Routes>
         </BrowserRouter>

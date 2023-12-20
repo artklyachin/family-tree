@@ -19,22 +19,21 @@ from django.urls import path, include
 from rest_framework import routers
 from card.views import CardViewSet, CardOwnerViewSet, CardEditorsViewSet, CardSubscribersViewSet, CardViewersViewSet, CardWithCommentsViewSet
 from comment.views import CommentViewSet
-from user.views import UserViewSet, UserViewSetCardSet, UserViewReg
+from user.views import UserViewSet, UserViewReg, UserCurrent
 
 router = routers.DefaultRouter()
 router.register(r'cards', CardViewSet) #все card со всеми полями 
 router.register(r'cards_with_comments', CardWithCommentsViewSet) #cards_list со списками комментариев 
-# router.register(r'cards_list', CardListViewSet) #все card со всеми полями
 # фильтрация по спискам
 router.register(r'cards_owner', CardOwnerViewSet)
 router.register(r'cards_edit', CardEditorsViewSet)
 router.register(r'cards_sub', CardSubscribersViewSet)
 router.register(r'cards_view', CardViewersViewSet)
 
-router.register(r'comments', CommentViewSet)
-router.register(r'users_card_set', UserViewSetCardSet)
-router.register(r'users', UserViewSet)
-router.register(r'users_reg', UserViewReg)
+router.register(r'comments', CommentViewSet) #список всех комментариев
+router.register(r'users', UserViewSet) #список всех юзеров
+router.register(r'users_reg', UserViewReg) #для добавления эзеров
+
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import (
@@ -45,6 +44,7 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)), 
+    path('api/current_user/', UserCurrent.as_view(), name='users_current'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

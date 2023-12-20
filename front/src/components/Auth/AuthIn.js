@@ -6,7 +6,7 @@ import {ApiService, IsAuthorized, Logout} from "../../services/ApiService";
 
 
 const handleLogin = async (login, password) => {
-    const { access, refresh } = await ApiService("token/", {
+    const {access, refresh} = await ApiService("token/", {
         method: "Post",
         headers: {
             "Content-Type": "application/json",
@@ -14,9 +14,12 @@ const handleLogin = async (login, password) => {
         body: JSON.stringify({ username: login, password }),
     });
 
+
+    // console.log(response)
     if (access) {
         window.localStorage.setItem('access', access)
         window.localStorage.setItem('refresh', refresh)
+        // window.localStorage.setItem('user_id', refresh)
         window.location.href = "/"
     }
 };

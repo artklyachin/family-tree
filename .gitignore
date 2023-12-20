@@ -3,6 +3,8 @@
 /back/env
 /back/back/secret_key.py
 /env/
+node_modules/
+back/card/migrations/*
 
 # Django #
 *.log

@@ -4,7 +4,6 @@ import {CircleImg} from "../Auxiliary/CircleImg";
 
 export function CardItem( { info, to = "" }  ) {
 
-    console.log(info.image)
     return (
         <div>
             {/*<Link to={info.link} className="post">*/}

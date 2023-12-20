@@ -16,12 +16,13 @@ class Card(models.Model):
     subscribers = models.ManyToManyField(User, related_name="subscriber_members", blank=True)
     viewers = models.ManyToManyField(User, related_name="viewer_members", blank=True)
 
-    def __str__(self) -> str:
+    def __str__(self) -> str: # название для /admin
         return self.name + ' ' + self.surname
 
+# у каждого пользователя одна родная card
 class UserCard(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     card = models.OneToOneField(Card, on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
+    def __str__(self) -> str: # название для /admin
         return 'user:' + str(self.user) + ' card:' + str(self.card)

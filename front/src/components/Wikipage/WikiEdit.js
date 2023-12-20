@@ -4,108 +4,124 @@ import {LinkBlock, AdaptiveLinkBlock} from "../Auxiliary/LinkBlock";
 import { PublicationForm } from "./PublicationForm";
 import { PublicationItem } from "./PublicationItem";
 import { EditableItem } from "./EditableItem";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {ApiService} from "../../services/ApiService";
+import {CircleImg} from "../Auxiliary/CircleImg";
+import { useParams } from 'react-router-dom';
 
 export function  WikiEdit() {
     const [publications, setPublications] = useState();
     const [nameData, setNameData] = useState();
+    const { page } = useParams();
+
+    const [data, setData] = useState({
+        id: 0,
+        username: "test",
+        avatar: "",
+    });
+    const [img_url, setImgUrl] = useState({})
 
     useEffect(() => {
         (async () => {
 
-            const data = await ApiService(`cards_with_comments/1/`)
+            const data = await ApiService(`cards_with_comments/${page}`)
             setPublications(data['comment_set']);
             setNameData(data);
-
-            // const data = await fetch(JSON_SERVER_PATH + `/comments/`);
-            // const posts = await data.json();
-            // setPublications(posts);
-            //
-            // const dataUser = await fetch(JSON_SERVER_PATH + `/cards/1/`);
-            // const name = await dataUser.json();
-            // setNameData(name);
         })();
     }, []);
 
     const handleCreate = async (comment) => {
-        const values = {
-            comment
+
+        const new_post = {
+            "comment" : comment.comment,
+            "card" : page,
+            "user" : 1,
         };
 
-        const response = 0;
-        // const response = await ApiService("/comment", {
-        //     method: "POST",
-        //     body: JSON.stringify(values["comment"]),
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // });
-        // const response = await fetch(JSON_SERVER_PATH + "/comments", {
-        //     method: "POST",
-        //     body: JSON.stringify(values["comment"]),
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // });
-
-        const newPublication = await response.json();
+        const response = await ApiService("comments/", {
+            method: "POST",
+            body: JSON.stringify(new_post),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
         const updatedPublications = [...publications]
-        updatedPublications.push(newPublication);
+        updatedPublications.push(response);
         setPublications(updatedPublications);
     };
 
-    const handleEdit = async (post) => {
-        const norm_post = Object.assign({}, {id : post.id}, post.comment);
+    const handleEdit = async (comment) => {
 
-        const response = 0;
-        // const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
-        //     method: "PUT",
-        //     body: JSON.stringify(norm_post),
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // });
-        const updatedPublication = await response.json();
+        const new_post = {
+            "comment" : comment.comment.comment,
+            "card" : page,
+            "user" : 1,
+        };
+
+        const response = await ApiService(`comments/${comment.id}/`, {
+            method: "PUT",
+            body: JSON.stringify(new_post),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
         const publicationIdx = publications.findIndex(
-            (publication) => publication.id === norm_post.id
+            (publication) => publication.id === comment.id
         );
 
         const updatedPublications = [...publications]
-        updatedPublications[publicationIdx] = updatedPublication;
+        updatedPublications[publicationIdx] = response;
         setPublications(updatedPublications);
     };
 
-    const handleDelete = async (post) => {
+    const handleDelete = async (comment) => {
 
-        const response = 0;
-        // const response = await fetch(JSON_SERVER_PATH + `/comments/${post.id}`, {
-        //     method: "DELETE",
-        //     body: JSON.stringify(post),
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // });
-        const updatedPublication = await response.json();
+        // const response = 0;
+        // const updatedPublication = await response.json();
+        //
+        // const publicationIdx = publications.findIndex(
+        //     (publication) => publication.id === post.id
+        // );
+        //
+        // const updatedPublications = [...publications]
+        //
+        // updatedPublications.splice(publicationIdx, 1)
+        // setPublications(updatedPublications);
+
+
+        const new_post = {
+            "card" : page,
+            "user" : 1,
+        };
+
+        const response = await ApiService(`comments/${comment.id}/`, {
+            method: "DELETE",
+            body: JSON.stringify(new_post),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
         const publicationIdx = publications.findIndex(
-            (publication) => publication.id === post.id
+            (publication) => publication.id === comment.id
         );
 
         const updatedPublications = [...publications]
-
         updatedPublications.splice(publicationIdx, 1)
         setPublications(updatedPublications);
     };
 
     const handleEditName = async (post) => {
-        console.log(nameData)
         const {comment_set, image, ...norm_post} = nameData
-        norm_post.name = post.comment.comment
+        if (post.comment.comment.split(' ').length === 2) {
+            [norm_post.name, norm_post.surname] = post.comment.comment.split(' ')
+        } else {
+            return {}
+        }
 
-        const response = await ApiService("cards/1/", {
+        const response = await ApiService(`cards/${page}/`, {
             method: "PUT",
             body: JSON.stringify(norm_post),
             headers: {
@@ -118,10 +134,44 @@ export function  WikiEdit() {
         setNameData(updated);
     };
 
+    useEffect(() => {
+        (async () => {
+            const new_data = await ApiService(`cards/${page}`)
+            setData(new_data);
+            setImgUrl(new_data.image)
+
+        })();
+    }, []);
+
+    const handleImageChange = async (e) => {
+        let newData = { ...data };
+        newData["image"] = e.target.files[0];
+        setData(newData);
+    };
+
+    const doSubmitImage = async (e) => {
+        e.preventDefault();
+
+        let form_data = new FormData();
+        if (data.image)
+            form_data.append("image", data.image, data.image.name);
+        form_data.append("id", data.id);
+        form_data.append("name", data.name);
+        form_data.append("surname", data.surname);
+        form_data.append("owner", data.owner);
+
+        const responce = await ApiService(`cards/${page}/`, {
+            method: "put",
+            body: form_data,
+        });
+
+        setImgUrl(responce.image)
+    };
+
     return (
         <div className={'wiki-main'}>
             <div className={'wiki-edit-wrap'}>
-                <LinkBlock elements={'Вернуться'} to={'/wiki_page'} className={'wiki-edit'} />
+                <LinkBlock elements={'Вернуться'} to={`/wiki_page/${page}/`} className={'wiki-edit'} />
             </div>
             <div className="wiki-edit-name-wraper">
                 <EditableItem onEdit={handleEditName} id={1} content={
@@ -136,6 +186,19 @@ export function  WikiEdit() {
                     formTitle="Добавить запись"
                 />
             </div>
+
+            <div className='wiki-foto'>
+                <CircleImg imgUrl={img_url}/>
+            </div>
+            {/*<TextBlock text="" className="profile-foto-foto"/>*/}
+            <input type="file"
+                   name="image_url"
+                   accept="image/jpeg,image/png,image/gif"
+                   onChange={(e) => {handleImageChange(e)}}/>
+            <button variant="primary"
+                    type="submit"
+                    onClick={(e) => doSubmitImage(e)}>Сохранить</button>
+
             <div className="wikiedit-list">
                 {publications?.map((item) => (
                     <PublicationItem

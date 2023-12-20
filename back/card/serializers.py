@@ -10,24 +10,8 @@ class CardSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CardWithCommentsSerializer(serializers.ModelSerializer):
-    #user = UserSerializer()
     comment_set = CommentSerializer(many=True)
 
     class Meta:
         model = Card
         fields = ['name', 'surname', 'family', 'image', 'owner', 'editors', 'subscribers', 'viewers', 'comment_set']
-
-class CardListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Card
-        #fields = ['name', 'surname', 'family', 'image', 'owner']
-        fields = '__all__'
-
-class CardPermissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Card
-        fields = ['name', 'surname', 'family', 'image', 'owner', 'editors', 'subscribers', 'viewers']
-
-
-#        fields = '__all__'
-#        fields = ['name', 'surname', 'family', 'image', 'owner', 'editors', 'viewers']

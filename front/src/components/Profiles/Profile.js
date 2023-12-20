@@ -1,12 +1,12 @@
 import {TextBlock} from "../Auxiliary/TextBlock";
 import {CircleImg} from "../Auxiliary/CircleImg"
 import React, {useEffect, useState} from "react";
-import {ApiService, Logout} from "../../services/ApiService";
+import {ApiService, IsAuthorized, Logout} from "../../services/ApiService";
 import {Link} from "react-router-dom";
 
 export function Profile() {
 
-    const [data, setData] = useState({
+    const [user, setUser] = useState({
         id: 0,
         username: "test",
         avatar: "",
@@ -15,39 +15,36 @@ export function Profile() {
 
     useEffect(() => {
         (async () => {
-            const new_data = await ApiService(`users/2/`)
-            setData(new_data);
-            setImgUrl(new_data.avatar)
-
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+                setImgUrl(user.avatar)
+            }
         })();
     }, []);
 
     const handleImageChange = async (e) => {
-        console.log(data)
-
-        let newData = { ...data };
+        let newData = { ...user };
         newData["avatar"] = e.target.files[0];
-        setData(newData);
-    };
+        setUser(newData);
 
-    const doSubmit = async (e) => {
         e.preventDefault();
-
+        let avatar = e.target.files[0];
         let form_data = new FormData();
-        if (data.avatar)
-            form_data.append("avatar", data.avatar, data.avatar.name);
-        form_data.append("username", data.username);
+        if (avatar)
+            console.log(avatar, avatar.name)
+        form_data.append("avatar", avatar, avatar.name);
+        form_data.append("username", user.username);
 
-        console.log(data.avatar)
-        const responce = await ApiService("users/2/", {
+        console.log(user.id)
+
+        const responce = await ApiService(`users/${user.id}/`, {
             method: "put",
             body: form_data,
         });
 
         setImgUrl(responce.avatar)
     };
-
-
 
     return (
         <div className='profile-aside'>
@@ -64,19 +61,17 @@ export function Profile() {
                     <div className={"profile-foto-foto"}>
                         <CircleImg imgUrl={img_url}/>
                     </div>
-                    {/*<TextBlock text="" className="profile-foto-foto"/>*/}
                     <input type="file"
                            name="image_url"
                            accept="image/jpeg,image/png,image/gif"
                            onChange={(e) => {handleImageChange(e)}}/>
-                    <button variant="primary"
-                            type="submit"
-                            onClick={(e) => doSubmit(e)}/>
                 </div>
             </div>
-            <Link className='header-components header-auth' to='/' onClick={(e) => Logout()}>
-                Logout
-            </Link>
+            <div className="marguntop-logout">
+                <Link className='profile-logout' to='/auth_in' onClick={(e) => Logout()}>
+                    Logout
+                </Link>
+            </div>
         </div>
     );
 }

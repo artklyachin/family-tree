@@ -1,7 +1,6 @@
 
 export async function ApiService(url, params = {}) {
 
-    console.log(url)
     let refreshToken = window.localStorage.getItem("refresh");
     let accessToken = window.localStorage.getItem("access");
     const newParams = {
@@ -23,7 +22,9 @@ export async function ApiService(url, params = {}) {
         newParams.headers.Authorization = `Bearer ${accessToken}`;
         const newresponse = await fetch(`http://127.0.0.1:8000/api/${url}`, newParams);
         data = await newresponse.json();
-    } else {
+    } else if (response.status === 204) { // Ok but no content
+        return {};
+    } else{
         data = await response.json();
     }
     return data;
@@ -67,5 +68,4 @@ export function IsAuthorized() {
 export function Logout() {
     window.localStorage.removeItem("access")
     window.localStorage.removeItem("refresh")
-    window.location.href = "/auth_in"
 }

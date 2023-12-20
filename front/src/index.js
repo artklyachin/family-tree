@@ -11,13 +11,6 @@ root.render(
     </React.StrictMode>
 );
 
-// var el = document.getElementById("post-form")
-// el.addEventListener("submit", (event) => {
-//     console.log(event);
-//     event.preventDefault();
-//     console.log("post-form");
-// });
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
