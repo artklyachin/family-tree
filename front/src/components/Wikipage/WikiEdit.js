@@ -5,7 +5,7 @@ import { PublicationForm } from "./PublicationForm";
 import { PublicationItem } from "./PublicationItem";
 import { EditableItem } from "./EditableItem";
 import React, { useState, useEffect } from "react";
-import {ApiService} from "../../services/ApiService";
+import {ApiService, IsAuthorized} from "../../services/ApiService";
 import {CircleImg} from "../Auxiliary/CircleImg";
 import { useParams } from 'react-router-dom';
 
@@ -13,6 +13,16 @@ export function  WikiEdit() {
     const [publications, setPublications] = useState();
     const [nameData, setNameData] = useState();
     const { page } = useParams();
+
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+            }
+        })();
+    }, []);
 
     const [data, setData] = useState({
         id: 0,
@@ -35,7 +45,7 @@ export function  WikiEdit() {
         const new_post = {
             "comment" : comment.comment,
             "card" : page,
-            "user" : 1,
+            "user" : user.id,
         };
 
         const response = await ApiService("comments/", {
@@ -56,7 +66,7 @@ export function  WikiEdit() {
         const new_post = {
             "comment" : comment.comment.comment,
             "card" : page,
-            "user" : 1,
+            "user" : user.id,
         };
 
         const response = await ApiService(`comments/${comment.id}/`, {
@@ -78,25 +88,14 @@ export function  WikiEdit() {
 
     const handleDelete = async (comment) => {
 
-        // const response = 0;
-        // const updatedPublication = await response.json();
-        //
-        // const publicationIdx = publications.findIndex(
-        //     (publication) => publication.id === post.id
-        // );
-        //
-        // const updatedPublications = [...publications]
-        //
-        // updatedPublications.splice(publicationIdx, 1)
-        // setPublications(updatedPublications);
-
+        console.log(comment)
 
         const new_post = {
             "card" : page,
-            "user" : 1,
+            "user" : user.id,
         };
 
-        const response = await ApiService(`comments/${comment.id}/`, {
+        const responce = await ApiService(`comments/${comment.id}/`, {
             method: "DELETE",
             body: JSON.stringify(new_post),
             headers: {
@@ -114,14 +113,13 @@ export function  WikiEdit() {
     };
 
     const handleEditName = async (post) => {
-        const {comment_set, image, ...norm_post} = nameData
-        if (post.comment.comment.split(' ').length === 2) {
-            [norm_post.name, norm_post.surname] = post.comment.comment.split(' ')
-        } else {
-            return {}
-        }
+        // const {comment_set, image, ...norm_post} = nameData
+        let norm_post = {}
+        norm_post.name = post.comment.comment
+        norm_post.surname = nameData.surname
+        norm_post.owner = nameData.owner
 
-        const response = await ApiService(`cards/${page}/`, {
+        const responce = await ApiService(`cards/${page}/`, {
             method: "PUT",
             body: JSON.stringify(norm_post),
             headers: {
@@ -129,9 +127,25 @@ export function  WikiEdit() {
             },
         });
         // Не вернул comment_set и image обратно
-        const updated = response;
+        setNameData(responce);
+    };
 
-        setNameData(updated);
+    const handleEditSurname = async (post) => {
+        // const {comment_set, image, ...norm_post} = nameData
+        let norm_post = {}
+        norm_post.surname = post.comment.comment
+        norm_post.name = nameData.name
+        norm_post.owner = nameData.owner
+
+        const responce = await ApiService(`cards/${page}/`, {
+            method: "PUT",
+            body: JSON.stringify(norm_post),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        // Не вернул comment_set и image обратно
+        setNameData(responce);
     };
 
     useEffect(() => {
@@ -144,17 +158,18 @@ export function  WikiEdit() {
     }, []);
 
     const handleImageChange = async (e) => {
+        console.log(data)
+
         let newData = { ...data };
         newData["image"] = e.target.files[0];
         setData(newData);
-    };
 
-    const doSubmitImage = async (e) => {
         e.preventDefault();
 
         let form_data = new FormData();
-        if (data.image)
-            form_data.append("image", data.image, data.image.name);
+        let image = e.target.files[0];
+        if (image)
+            form_data.append("image", image, image.name);
         form_data.append("id", data.id);
         form_data.append("name", data.name);
         form_data.append("surname", data.surname);
@@ -171,12 +186,19 @@ export function  WikiEdit() {
     return (
         <div className={'wiki-main'}>
             <div className={'wiki-edit-wrap'}>
-                <LinkBlock elements={'Вернуться'} to={`/wiki_page/${page}/`} className={'wiki-edit'} />
+                <LinkBlock elements={'Вернуться'} to={`/wiki_page/${page}`} className={'wiki-edit'} />
             </div>
             <div className="wiki-edit-name-wraper">
-                <EditableItem onEdit={handleEditName} id={1} content={
+                <EditableItem onEdit={handleEditName} content={
                     <div className='wiki-name'>
-                        {nameData?.name} {nameData?.surname}
+                        {nameData?.name}
+                    </div>
+                }/>
+            </div>
+            <div className="wiki-edit-name-wraper">
+                <EditableItem onEdit={handleEditSurname} content={
+                    <div className='wiki-name'>
+                        {nameData?.surname}
                     </div>
                 }/>
             </div>
@@ -195,9 +217,6 @@ export function  WikiEdit() {
                    name="image_url"
                    accept="image/jpeg,image/png,image/gif"
                    onChange={(e) => {handleImageChange(e)}}/>
-            <button variant="primary"
-                    type="submit"
-                    onClick={(e) => doSubmitImage(e)}>Сохранить</button>
 
             <div className="wikiedit-list">
                 {publications?.map((item) => (

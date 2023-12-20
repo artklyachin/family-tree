@@ -19,6 +19,7 @@ import {Forgot} from "./components/Auth/Forgot";
 import {ChngPass} from "./components/Auth/ChngPass";
 import {Desktop} from './components/Main/Desktop';
 import {Profile} from './components/Profiles/Profile';
+import {ProfileEdit} from './components/Profiles/ProfileEdit';
 import {Wiki} from './components/Wikipage/Wiki';
 import {WikiEdit} from './components/Wikipage/WikiEdit';
 
@@ -54,7 +55,11 @@ function App() {
                 <Route element={<SimpleTemplate/>}><Route path="/change_password" element={<ChngPass/>} /></Route>
                 {/*{isAuth && <Route element={<DesktopTemplate/>}><Route path="/desktop" element={<Desktop/>} /></Route>}*/}
                 <Route element={<DesktopTemplate/>}><Route path="/desktop" element={<Desktop/>} /></Route>
-                <Route element={<ProfileTemplate/>}><Route path="/profile" element={<Profile/>} /></Route>
+                {/*<Route element={<ProfileTemplate/>}><Route path="/profile" element={<Profile/>} /></Route>*/}
+                <Route element={<ProfileTemplate/>} path="/profile">
+                    <Route path="" element={<Profile/>} />
+                    <Route path="edit/" element={<ProfileEdit/>} />
+                </Route>
                 <Route element={<WikiTemplate/>} path="/wiki_page">
                     <Route path=":page" element={<Wiki/>} />
                     <Route path="edit/:page" element={<WikiEdit/>} />

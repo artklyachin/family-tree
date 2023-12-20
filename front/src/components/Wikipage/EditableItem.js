@@ -25,7 +25,7 @@ export function EditableItem(props) {
                     onClose={() => setIsModalOpen(false)}
                     content={
                         <PublicationForm
-                            formTitle="Редактировать"
+                            formTitle="Edit"
                             onSuccess={handleSuccess}
                         />
                     }

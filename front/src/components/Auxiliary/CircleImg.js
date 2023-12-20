@@ -14,33 +14,3 @@ export function CircleImg( {imgUrl} ) {
         </span>
     );
 }
-
-export function AvatarBlock( {userUrl} ) {
-    const [img_url, setImgUrl] = useState({})
-
-    useEffect(() => {
-        (async () => {
-            const new_data = await ApiService(userUrl)
-            setImgUrl(new_data.avatar)
-        })();
-    }, []);
-
-    return(
-        <LinkBlock elements={<CircleImg imgUrl={img_url}/>} to='/profile' className='header-avatar'/>
-    );
-}
-
-export function CardAvaterBlock( {userUrl} ) {
-    const [img_url, setImgUrl] = useState({})
-
-    useEffect(() => {
-        (async () => {
-            const new_data = await ApiService(userUrl)
-            setImgUrl(new_data.image)
-        })();
-    }, []);
-
-    return(
-        <LinkBlock elements={<CircleImg imgUrl={img_url}/>} to='/wiki' className='header-avatar'/>
-    );
-}

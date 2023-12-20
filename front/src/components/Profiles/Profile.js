@@ -54,20 +54,19 @@ export function Profile() {
                 </div>
                 <div className='profile-details'>
                     <TextBlock text="First and Last Name" className="prfl-stl"/>
-                    <TextBlock text="" className="profile-details-field prfl-stl"/>
+                    <TextBlock text={`${user.first_name} ${user.last_name}`} className="profile-details-field prfl-stl"/>
                 </div>
                 <div className="profile-foto">
                     <TextBlock text="Your photo" className="prfl-stl"/>
                     <div className={"profile-foto-foto"}>
                         <CircleImg imgUrl={img_url}/>
                     </div>
-                    <input type="file"
-                           name="image_url"
-                           accept="image/jpeg,image/png,image/gif"
-                           onChange={(e) => {handleImageChange(e)}}/>
                 </div>
             </div>
             <div className="marguntop-logout">
+                <Link className='profile-edit' to='/profile/edit'>
+                    Edit
+                </Link>
                 <Link className='profile-logout' to='/auth_in' onClick={(e) => Logout()}>
                     Logout
                 </Link>

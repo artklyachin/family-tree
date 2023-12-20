@@ -1,7 +1,7 @@
 //import {LinkBlock} from './LinkBlock';
 import {Outlet} from 'react-router-dom';
 import {LinkBlock} from './Auxiliary/LinkBlock'
-import {AvatarBlock, CircleImg} from "./Auxiliary/CircleImg";
+import {CircleImg} from "./Auxiliary/CircleImg";
 import {TextBlock} from "./Auxiliary/TextBlock";
 import {ApiService, IsAuthorized} from "../services/ApiService";
 import {useEffect, useState} from "react";
