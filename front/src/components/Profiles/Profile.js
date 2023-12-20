@@ -2,9 +2,12 @@ import {TextBlock} from "../Auxiliary/TextBlock";
 import {CircleImg} from "../Auxiliary/CircleImg"
 import React, {useEffect, useState} from "react";
 import {ApiService, IsAuthorized, Logout} from "../../services/ApiService";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import {compareArraysAsSet} from "@testing-library/jest-dom/dist/utils";
 
-export function Profile() {
+export function Profile(props = {IsGuest : false}) {
+    let IsGuest = props.IsGuest
+    const { page } = useParams();
 
     const [user, setUser] = useState({
         id: 0,
@@ -16,35 +19,18 @@ export function Profile() {
     useEffect(() => {
         (async () => {
             if (IsAuthorized()) {
-                const user = await ApiService(`current_user/`);
-                setUser(user);
-                setImgUrl(user.avatar)
+                if (IsGuest) {
+                    const user_data = await ApiService(`users/${page}/`);
+                    setUser(user_data);
+                    setImgUrl(user_data.avatar)
+                } else {
+                    const user_data = await ApiService(`current_user/`);
+                    setUser(user_data);
+                    setImgUrl(user_data.avatar)
+                }
             }
         })();
     }, []);
-
-    const handleImageChange = async (e) => {
-        let newData = { ...user };
-        newData["avatar"] = e.target.files[0];
-        setUser(newData);
-
-        e.preventDefault();
-        let avatar = e.target.files[0];
-        let form_data = new FormData();
-        if (avatar)
-            console.log(avatar, avatar.name)
-        form_data.append("avatar", avatar, avatar.name);
-        form_data.append("username", user.username);
-
-        console.log(user.id)
-
-        const responce = await ApiService(`users/${user.id}/`, {
-            method: "put",
-            body: form_data,
-        });
-
-        setImgUrl(responce.avatar)
-    };
 
     return (
         <div className='profile-aside'>
@@ -55,6 +41,7 @@ export function Profile() {
                 <div className='profile-details'>
                     <TextBlock text="First and Last Name" className="prfl-stl"/>
                     <TextBlock text={`${user.first_name} ${user.last_name}`} className="profile-details-field prfl-stl"/>
+                    <TextBlock text={`username: ${user.username}, id: ${user.id}`} className="prfl-stl"/>
                 </div>
                 <div className="profile-foto">
                     <TextBlock text="Your photo" className="prfl-stl"/>
@@ -63,14 +50,20 @@ export function Profile() {
                     </div>
                 </div>
             </div>
-            <div className="marguntop-logout">
-                <Link className='profile-edit' to='/profile/edit'>
-                    Edit
-                </Link>
-                <Link className='profile-logout' to='/auth_in' onClick={(e) => Logout()}>
-                    Logout
-                </Link>
-            </div>
+            { IsGuest ? null :
+                <div className="marguntop-logout">
+                    <Link className='profile-edit' to='/profile/edit'>
+                        Edit
+                    </Link>
+                    <Link className='profile-logout' to='/auth_in' onClick={(e) => Logout()}>
+                        Logout
+                    </Link>
+                </div>
+            }
         </div>
     );
+}
+
+export function ProfileUser() {
+    return Profile({IsGuest : true})
 }

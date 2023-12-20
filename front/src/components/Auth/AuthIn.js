@@ -3,6 +3,8 @@ import {main_texts} from "../Main/main-texts";
 import {LinkBlock, AdaptiveLinkBlock} from "../Auxiliary/LinkBlock";
 import { AuthForm } from "./AuthForm";
 import {ApiService, IsAuthorized, Logout} from "../../services/ApiService";
+import {Link} from "react-router-dom";
+import React from "react";
 
 
 const handleLogin = async (login, password) => {
@@ -15,7 +17,6 @@ const handleLogin = async (login, password) => {
     });
 
 
-    // console.log(response)
     if (access) {
         window.localStorage.setItem('access', access)
         window.localStorage.setItem('refresh', refresh)
@@ -29,9 +30,11 @@ export function AuthIn() {
             <div className="auth">
                 { IsAuthorized()
                 ?
-                    <div>
+                    <div className="auth-logout-gap">
                         <TextBlock text={"Выйдите прежде чем сменить учётную запись"}/>
-                        <button className="auth-SItxt" onClick={Logout}>Logout</button>
+                        <Link className='profile-logout' to='/auth_in' onClick={(e) => Logout()}>
+                            Logout
+                        </Link>
                     </div>
                 :
                     <div className="auth-up-1">

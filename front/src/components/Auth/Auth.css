@@ -201,3 +201,9 @@
     color: white;
     text-decoration: none;
 }
+
+.auth-logout-gap {
+    row-gap: 20px;
+    display: flex;
+    flex-direction: column;
+}

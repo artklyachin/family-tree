@@ -43,7 +43,6 @@ export function HomeTemplate() {
             if (IsAuthorized()) {
                 const user = await ApiService(`current_user/`);
                 setUser(user);
-                console.log(user)
             }
         })();
     }, []);

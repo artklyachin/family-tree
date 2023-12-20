@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PublicationItem } from "./PublicationItem";
 
 export function PublicationForm(props) {
-    const { onSuccess, formTitle, defaultComment } = props;
+    const { onSuccess, formTitle, defaultComment, listname } = props;
     const [comment, setComment] = useState();
     const [error, setError] = useState("");
 
@@ -34,7 +34,7 @@ export function PublicationForm(props) {
                             className={"pub-form-buttom-save"}
                             onClick={(event) => {
                                 event.preventDefault();
-                                onSuccess({comment});
+                                onSuccess({comment : comment, listname : listname});
                             }}
                         >
                             Сохранить

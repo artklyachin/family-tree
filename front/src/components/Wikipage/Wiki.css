@@ -2,10 +2,12 @@
 .wiki-main {
     margin-left: 40px;
     margin-right: 20px;
+    margin-bottom: 100px;
 }
 
 .wiki-edit-wrap {
     display: flex;
+    gap: 40px;
     justify-content: right;
 }
 
@@ -108,4 +110,55 @@
 
 .wiki-edit-name-wraper {
     margin-top: 25px;
+}
+
+.access-user-item-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.access-user-item-link {
+    text-decoration: none;
+    width: min-content;
+    display: flex;
+}
+
+.access-user-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    margin-top: 7px;
+
+    width: min-content;
+}
+
+.access-user-item-text {
+    font-size: 20px;
+    line-height: 25px;
+    color: black;
+
+    width: max-content;
+}
+
+.access-user-item-img {
+    width: 50px;
+}
+
+.access-label {
+    position: relative;
+
+    text-decoration: none;
+    font-size: 30px;
+    line-height: 25px;
+    font-weight: 700;
+
+    color: black;
+    margin-top: 50px;
+}
+
+.access-owner {
+    margin-top: 12px;
 }

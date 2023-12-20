@@ -23,16 +23,16 @@ export function Desktop() {
 
     useEffect(() => {
         (async () => {
+            if (user.id !== undefined) {
+                const owned_cards = await ApiService(`cards_owner/?user=${user.id}`)
+                setOwnedCards(owned_cards)
 
-            const owned_cards = await ApiService(`cards_owner/?user=${user.id}`)
-            setOwnedCards(owned_cards)
+                const edited_cards = await ApiService(`cards_edit/?user=${user.id}`)
+                setEditedCards(edited_cards);
 
-            const edited_cards = await ApiService(`cards_edit/?user=${user.id}`)
-            setEditedCards(edited_cards);
-
-            const sub_cards = await ApiService(`cards_sub/?user=${user.id}`)
-            setFavorCards(sub_cards);
-
+                const sub_cards = await ApiService(`cards_sub/?user=${user.id}`)
+                setFavorCards(sub_cards);
+            }
         })();
     }, [user]);
 

@@ -4,6 +4,8 @@ import {AdaptiveLinkBlock, LinkBlock} from "../Auxiliary/LinkBlock";
 import { AuthForm } from "./AuthForm";
 import {JSON_SERVER_PATH} from "../../Config"
 import {ApiService, IsAuthorized, Logout} from "../../services/ApiService";
+import {Link} from "react-router-dom";
+import React from "react";
 
 export function AuthUp() {
     const handleLogin = async (login, password) => {
@@ -42,7 +44,9 @@ export function AuthUp() {
                 ?
                     <div>
                         <TextBlock text={"Выйдете прежде чем зарегистрироваться"}/>
-                        <button className="auth-SItxt" onClick={Logout}>Logout</button>
+                        <Link className='profile-logout' to='/auth_in' onClick={(e) => Logout()}>
+                            Logout
+                        </Link>
                     </div>
                 :
                     <div className="auth-up-1">

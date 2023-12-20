@@ -32,12 +32,8 @@ export function ProfileEdit() {
         e.preventDefault();
         let avatar = e.target.files[0];
         let form_data = new FormData();
-        if (avatar)
-            console.log(avatar, avatar.name)
         form_data.append("avatar", avatar, avatar.name);
         form_data.append("username", user.username);
-
-        console.log(user.id)
 
         const responce = await ApiService(`users/${user.id}/`, {
             method: "put",
@@ -85,12 +81,12 @@ export function ProfileEdit() {
                     <div>
                         <div className="wiki-edit-name-wraper">
                             <EditableItem onEdit={handleEditName} id={1} content={
-                                <TextBlock text={`${user.first_name}`} className=""/>
+                                <TextBlock text={`${user.first_name}`} className="prfl-stl"/>
                             }/>
                         </div>
                         <div className="wiki-edit-name-wraper">
                             <EditableItem onEdit={handleEditSurname} id={1} content={
-                                <TextBlock text={`${user.last_name}`} className=""/>
+                                <TextBlock text={`${user.last_name}`} className="prfl-stl"/>
                             }/>
                         </div>
                     </div>

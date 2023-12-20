@@ -43,7 +43,7 @@ export function Wiki() {
             </div>
             <div className="wiki-list">
                 {publicationsTexts?.map((item) => (
-                    <div className={"wiki-pubtext"}>
+                    <div className={"wiki-pubtext"} key={item.id}>
                         {item.comment}
                     </div>
                 ))}

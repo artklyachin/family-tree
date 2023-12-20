@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 
 export function  WikiEdit() {
     const [publications, setPublications] = useState();
-    const [nameData, setNameData] = useState();
+    const [cardData, setCardData] = useState();
     const { page } = useParams();
 
     const [user, setUser] = useState({ first_name : "user" });
@@ -36,7 +36,7 @@ export function  WikiEdit() {
 
             const data = await ApiService(`cards_with_comments/${page}`)
             setPublications(data['comment_set']);
-            setNameData(data);
+            setCardData(data);
         })();
     }, []);
 
@@ -88,8 +88,6 @@ export function  WikiEdit() {
 
     const handleDelete = async (comment) => {
 
-        console.log(comment)
-
         const new_post = {
             "card" : page,
             "user" : user.id,
@@ -113,11 +111,11 @@ export function  WikiEdit() {
     };
 
     const handleEditName = async (post) => {
-        // const {comment_set, image, ...norm_post} = nameData
+        // const {comment_set, image, ...norm_post} = cardData
         let norm_post = {}
         norm_post.name = post.comment.comment
-        norm_post.surname = nameData.surname
-        norm_post.owner = nameData.owner
+        norm_post.surname = cardData.surname
+        norm_post.owner = cardData.owner
 
         const responce = await ApiService(`cards/${page}/`, {
             method: "PUT",
@@ -127,15 +125,15 @@ export function  WikiEdit() {
             },
         });
         // Не вернул comment_set и image обратно
-        setNameData(responce);
+        setCardData(responce);
     };
 
     const handleEditSurname = async (post) => {
-        // const {comment_set, image, ...norm_post} = nameData
+        // const {comment_set, image, ...norm_post} = cardData
         let norm_post = {}
         norm_post.surname = post.comment.comment
-        norm_post.name = nameData.name
-        norm_post.owner = nameData.owner
+        norm_post.name = cardData.name
+        norm_post.owner = cardData.owner
 
         const responce = await ApiService(`cards/${page}/`, {
             method: "PUT",
@@ -145,7 +143,7 @@ export function  WikiEdit() {
             },
         });
         // Не вернул comment_set и image обратно
-        setNameData(responce);
+        setCardData(responce);
     };
 
     useEffect(() => {
@@ -158,7 +156,6 @@ export function  WikiEdit() {
     }, []);
 
     const handleImageChange = async (e) => {
-        console.log(data)
 
         let newData = { ...data };
         newData["image"] = e.target.files[0];
@@ -186,29 +183,23 @@ export function  WikiEdit() {
     return (
         <div className={'wiki-main'}>
             <div className={'wiki-edit-wrap'}>
+                <LinkBlock elements={'Права доступа'} to={`/access/${page}`} className={'wiki-edit'} />
                 <LinkBlock elements={'Вернуться'} to={`/wiki_page/${page}`} className={'wiki-edit'} />
             </div>
             <div className="wiki-edit-name-wraper">
                 <EditableItem onEdit={handleEditName} content={
                     <div className='wiki-name'>
-                        {nameData?.name}
+                        {cardData?.name}
                     </div>
                 }/>
             </div>
             <div className="wiki-edit-name-wraper">
                 <EditableItem onEdit={handleEditSurname} content={
                     <div className='wiki-name'>
-                        {nameData?.surname}
+                        {cardData?.surname}
                     </div>
                 }/>
             </div>
-            <div  className='wiki-create-form'>
-                <PublicationForm
-                    onSuccess={handleCreate}
-                    formTitle="Добавить запись"
-                />
-            </div>
-
             <div className='wiki-foto'>
                 <CircleImg imgUrl={img_url}/>
             </div>
@@ -217,6 +208,13 @@ export function  WikiEdit() {
                    name="image_url"
                    accept="image/jpeg,image/png,image/gif"
                    onChange={(e) => {handleImageChange(e)}}/>
+
+            <div  className='wiki-create-form'>
+                <PublicationForm
+                    onSuccess={handleCreate}
+                    formTitle="Добавить запись"
+                />
+            </div>
 
             <div className="wikiedit-list">
                 {publications?.map((item) => (
