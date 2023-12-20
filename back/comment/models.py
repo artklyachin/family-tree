@@ -9,6 +9,6 @@ class Comment(models.Model):
 
     # записать в название (отображаемое в admin) строку из комментария
     def __str__(self) -> str:
-        return self.comment
+        return self.id + " " + self.comment
 
 

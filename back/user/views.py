@@ -9,6 +9,11 @@ class UserViewSet(viewsets.ModelViewSet):
   serializer_class = UserSerializer
   parser_classes = (MultiPartParser, FormParser)
 
+  # def get(self, request):
+  #     if (request.username):
+  #       return User.objects.get(serializer.data)
+      
+
 class UserViewReg(viewsets.ModelViewSet):
   queryset = User.objects.all()
   serializer_class = UserSerializerReg
@@ -24,4 +29,9 @@ class UserCurrent(views.APIView):
   def get(self, request):
     serializer = UserSerializer(request.user)
     return response.Response(serializer.data)
+  
+  # def search(request):
+  #   user_name = request.GET.get('username')
+  #   return User.objects.get(username=user_name)
+
 
