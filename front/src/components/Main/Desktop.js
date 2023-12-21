@@ -1,8 +1,10 @@
 import {TextBlock} from "../Auxiliary/TextBlock";
 import {CircleImg} from "../Auxiliary/CircleImg";
 import {CardItem} from "./CardItem";
-import {useEffect, useState} from "react";
-import {ApiService, IsAuthorized} from "../../services/ApiService"
+import React, {useEffect, useState} from "react";
+import {ApiService, IsAuthorized, Logout} from "../../services/ApiService"
+import {LinkBlock} from "../Auxiliary/LinkBlock";
+import {Link} from "react-router-dom";
 
 export function Desktop() {
 
@@ -36,9 +38,33 @@ export function Desktop() {
         })();
     }, [user]);
 
+    const handleCreate = async (post) => {
+
+        const new_post = {
+            owner : user.id,
+            name : "Unknown",
+            surname : "Unknown"
+        };
+
+        const response = await ApiService("cards/", {
+            method: "POST",
+            body: JSON.stringify(new_post),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        window.location.href = `/wiki_page/edit/${response.id}`
+        console.log(response)
+    };
+
     return (
+        <>
+        { IsAuthorized() ?
         <div className='desktop-aside'>
             <TextBlock text="Projects" className="section-page-name"/>
+            <button className='wiki-edit section-section-create' onClick={(e) => handleCreate()}>
+                Создать новый проект
+            </button>
             <TextBlock text="your own page ⭐" className="section-section-name"/>
             <div className="post-grid">
                 {ownedCards?.map((item) => (
@@ -58,5 +84,7 @@ export function Desktop() {
                 ))}
             </div>
         </div>
+        : null }
+        </>
     );
 }

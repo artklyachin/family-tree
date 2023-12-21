@@ -4,7 +4,7 @@
     padding: 0px 40px 40px;
 
     display: grid;
-    grid-template-rows: auto 60px auto 60px auto 60px;
+    grid-template-rows: auto auto 60px auto 60px auto 60px;
     grid-row-gap: 10px;
 }
 
@@ -51,6 +51,12 @@
     line-height: 48px;
 
     color: #000000;
+}
+
+.section-section-create {
+    color: #595959 !important;
+    border: 1.5px solid !important;
+    width: 280px;
 }
 
 .section-section-name {

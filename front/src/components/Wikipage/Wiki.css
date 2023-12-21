@@ -11,6 +11,10 @@
     justify-content: right;
 }
 
+.wiki-edit-wrap-none {
+    height: 40px
+}
+
 .wiki-edit {
     position: relative;
 
@@ -28,6 +32,9 @@
     padding: 10px;
 }
 
+.wiki-edit-delete {
+}
+
 .wiki-name {
     position: relative;
 
@@ -37,6 +44,34 @@
     font-weight: 700;
 
     color: black;
+
+    margin-left: 40px;
+    height: 40px;
+}
+
+.wiki-family {
+
+    position: relative;
+
+    text-decoration: none;
+    font-size: 35px;
+    line-height: 25px;
+
+    color: gray;
+
+    margin-left: 40px;
+
+    margin-top: 30px
+}
+
+.wiki-family-edit {
+    position: relative;
+
+    text-decoration: none;
+    font-size: 35px;
+    line-height: 25px;
+
+    color: gray;
 
     margin-left: 40px;
 }
@@ -101,6 +136,10 @@
 .editable-item-grid {
     display: flex;
     justify-content: space-between;
+}
+
+.editable-item-error {
+    margin-top: 10px;
 }
 
 .pub-item-main {

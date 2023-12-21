@@ -2,18 +2,33 @@ import { useState } from "react";
 import { PublicationItem } from "./PublicationItem";
 
 export function PublicationForm(props) {
-    const { onSuccess, formTitle, defaultComment, listname } = props;
+    const { onSuccess, formTitle, defaultComment, listname, checkError } = props;
     const [comment, setComment] = useState();
     const [error, setError] = useState("");
 
-    const handleChangeComment = (event) => {
-        if (event.target.value.length > 50) {
-            setError("Поле не может быть больше 50 символов");
-        } else if (event.target.value.length === 0) {
-            setError("Поле не может быть пустым");
-        } else {
-            setError("");
-            setComment(event.target.value);
+    // const handleCheck = (comment) => {
+    //     setComment(comment);
+    //     console.log(comment, IsErrorCheck)
+    //     if (IsErrorCheck === true) {
+    //         if (comment && comment.length > 50) {
+    //             setError("Поле не может быть больше 50 символов");
+    //             return false
+    //         } else if (!comment || comment.length === 0) {
+    //             setError("Поле не может быть пустым");
+    //             return false
+    //         } else {
+    //             setError(null);
+    //             return true
+    //         }
+    //     }
+    //     return true
+    // }
+
+    const handleChangeComment = async (event) => {
+        if (checkError) {
+            setComment(event.target.value)
+            const responce = await checkError({comment: event.target.value, listname: listname})
+            setError(responce)
         }
     };
 
@@ -32,9 +47,11 @@ export function PublicationForm(props) {
                             id="create-button"
                             value={comment}
                             className={"pub-form-buttom-save"}
-                            onClick={(event) => {
-                                event.preventDefault();
-                                onSuccess({comment : comment, listname : listname});
+                            onClick={async (event) => {
+                                if (error === "") {
+                                    onSuccess({comment: comment, listname: listname});
+                                    event.preventDefault();
+                                }
                             }}
                         >
                             Сохранить

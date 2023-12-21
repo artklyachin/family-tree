@@ -4,12 +4,20 @@ import { Modal } from "./Modal";
 import { PublicationForm } from "./PublicationForm";
 
 export function EditableItem(props) {
-    const { content, onEdit, id } = props;
+    const { content, onEdit, id, errorCheck } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [error, setError] = useState();
 
     const handleSuccess = (edittedComment) => {
-        setIsModalOpen(false);
-        onEdit({ comment: edittedComment, id });
+        const responce = errorCheck ? errorCheck(edittedComment.comment) : true
+        console.log(edittedComment, responce)
+        if (responce === true) {
+            setError(null)
+            setIsModalOpen(false);
+            onEdit({ comment: edittedComment, id });
+        } else {
+            setError(responce)
+        }
     };
 
     return (
@@ -19,6 +27,9 @@ export function EditableItem(props) {
                 <div className="edit">
                     <button onClick={() => setIsModalOpen(true)}>edit</button>
                 </div>
+            </div>
+            <div className={"editable-item-error"}>
+                {error}
             </div>
             {isModalOpen && (
                 <Modal

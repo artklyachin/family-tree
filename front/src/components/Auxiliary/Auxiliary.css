@@ -21,3 +21,7 @@
     height:100%;
     object-fit: cover;
 }
+
+.text-decoration-none {
+    text-decoration: none;
+}

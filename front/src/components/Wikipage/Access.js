@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {TextBlock} from "../Auxiliary/TextBlock";
 import {PublicationForm} from "./PublicationForm";
-import {ApiService} from "../../services/ApiService";
+import {ApiService, IsAuthorized} from "../../services/ApiService";
 import {UserAccessItem} from "./UserAccessItem";
 
 export function Access() {
@@ -15,6 +15,16 @@ export function Access() {
         (async () => {
             const data = await ApiService(`cards/${page}/`)
             setCardData(data);
+        })();
+    }, []);
+
+    const [user, setUser] = useState({ first_name : "user" });
+    useEffect(() => {
+        (async () => {
+            if (IsAuthorized()) {
+                const user = await ApiService(`current_user/`);
+                setUser(user);
+            }
         })();
     }, []);
 
@@ -67,60 +77,86 @@ export function Access() {
         setCardData(responce)
     };
 
-    return (
-        <div className={'wiki-main'}>
-            <div className={'wiki-edit-wrap'}>
-                <LinkBlock elements={'Вернуться'} to={`/wiki_page/${page}`} className={'wiki-edit'} />
-            </div>
-            <TextBlock text={"Owner"} className="access-label"/>
+    const checkExists = (async ({comment, listname}) => {
+        let id = parseInt(comment)
+        if (comment === "") return "пустое"
+        if (isNaN(comment)) return "ожидается число - id"
+        const responce = await ApiService(`users/${id}`);
+        if (responce.detail) return "id не существует"
+        return ""
+    });
 
-            { cardData.owner ?
-                <div className={"access-owner"}>
-                    <UserAccessItem
-                        id={cardData.owner}
-                        IsOwner={true}
+    const checkPermission = (() =>{
+        if (!user.id || !cardData) {
+            return false
+        }
+        return (cardData.editors.includes(user.id) || user.id === cardData.owner)
+    });
+
+    return (
+        <>
+        {checkPermission() ?
+            <div className={'wiki-main'}>
+                <div className={'wiki-edit-wrap'}>
+                    <LinkBlock elements={'Вернуться'} to={`/wiki_page/${page}`} className={'wiki-edit'}/>
+                </div>
+                <TextBlock text={"Owner"} className="access-label"/>
+
+                {cardData.owner ?
+                    <div className={"access-owner"}>
+                        <UserAccessItem
+                            id={cardData.owner}
+                            IsOwner={true}
+                        />
+                    </div>
+                    : null}
+
+                <TextBlock text={"Editors"} className="access-label"/>
+                <div className='wiki-create-form'>
+                    <PublicationForm
+                        onSuccess={handleCreate}
+                        formTitle="Add editor (по id)"
+                        listname="editors"
+                        checkError={checkExists}
                     />
                 </div>
-            : null }
+                <div className="">
+                    {cardData.editors?.map((id) => (
+                        <UserAccessItem
+                            key={id}
+                            id={id}
+                            onDelete={handleDelete}
+                            listname="editors"
+                        />
+                    ))}
+                </div>
 
-            <TextBlock text={"Editors"} className="access-label"/>
-            <div  className='wiki-create-form'>
-                <PublicationForm
-                    onSuccess={handleCreate}
-                    formTitle="Добавить editor (по id)"
-                    listname="editors"
-                />
-            </div>
-            <div className="">
-                {cardData.editors?.map((id) => (
-                    <UserAccessItem
-                        key={id}
-                        id={id}
-                        onDelete={handleDelete}
-                        listname="editors"
-                    />
-                ))}
-            </div>
-
-            <TextBlock text={"Viewers"} className="access-label"/>
-            <div  className='wiki-create-form'>
-                <PublicationForm
-                    onSuccess={handleCreate}
-                    formTitle="Добавить viewer (по id)"
-                    listname="viewers"
-                />
-            </div>
-            <div className="">
-                {cardData.viewers?.map((id) => (
-                    <UserAccessItem
-                        key={id}
-                        id={id}
-                        onDelete={handleDelete}
+                <TextBlock text={"Viewers"} className="access-label"/>
+                <div className='wiki-create-form'>
+                    <PublicationForm
+                        onSuccess={handleCreate}
+                        formTitle="Add viewer (по id)"
                         listname="viewers"
+                        checkError={checkExists}
                     />
-                ))}
-            </div>
+                </div>
+                <div className="">
+                    {cardData.viewers?.map((id) => (
+                        <UserAccessItem
+                            key={id}
+                            id={id}
+                            onDelete={handleDelete}
+                            listname="viewers"
+                        />
+                    ))}
+                </div>
 
-        </div>
+            </div>
+        :
+            <div className='wiki-family'>
+                {"У вас нет доступа"}
+            </div>
+        }
+        </>
     );
 }

@@ -52,7 +52,6 @@ export function HomeTemplate() {
         <div>
             {!IsAuthorized() ?
                 <Header_template innerContent={<div className="header-right">
-                    <LinkBlock elements='desktop' to='/desktop' className='header-components'/>
                     <LinkBlock elements='product' to='/info' className='header-components'/>
                     <LinkBlock elements='Get started' to='/auth_in' className='header-autorisation'/>
                 </div>}/>

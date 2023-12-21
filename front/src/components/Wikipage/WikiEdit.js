@@ -7,7 +7,7 @@ import { EditableItem } from "./EditableItem";
 import React, { useState, useEffect } from "react";
 import {ApiService, IsAuthorized} from "../../services/ApiService";
 import {CircleImg} from "../Auxiliary/CircleImg";
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 
 export function  WikiEdit() {
     const [publications, setPublications] = useState();
@@ -146,6 +146,25 @@ export function  WikiEdit() {
         setCardData(responce);
     };
 
+    const handleEditFamily = async (post) => {
+        // const {comment_set, image, ...norm_post} = cardData
+        let norm_post = {}
+        norm_post.surname = cardData.surname
+        norm_post.name = cardData.name
+        norm_post.owner = cardData.owner
+        norm_post.family = post.comment.comment
+
+        const responce = await ApiService(`cards/${page}/`, {
+            method: "PUT",
+            body: JSON.stringify(norm_post),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        // Не вернул comment_set и image обратно
+        setCardData(responce);
+    };
+
     useEffect(() => {
         (async () => {
             const new_data = await ApiService(`cards/${page}`)
@@ -180,23 +199,72 @@ export function  WikiEdit() {
         setImgUrl(responce.image)
     };
 
+    const checkPermission = (() =>{
+        if (!user.id || !cardData || !cardData.editors || !cardData.owner) {
+            return false
+        }
+        return (cardData.editors.includes(user.id) || user.id === cardData.owner)
+    });
+
+    const handleDeleteCard = async (post) => {
+
+        const response = await ApiService(`cards/${page}`, {
+            method: "DELETE",
+            body: JSON.stringify(),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        console.log(response)
+    };
+
+    const checkComment = (async ({comment}) => {
+        if (!comment || comment === "") return "пустое"
+        if (comment.length > 50) return "долже быть не больше 50 символов"
+        return ""
+    });
+
+    const checkName = ((comment) =>{
+        if (!comment || comment.length === 0 || comment.length > 20) return "Имя не может содержать больше 20 символов или быть пустым"
+        return true
+    });
+
+    const checkOwnerPermission = (() =>{
+        if (!user.id || !cardData || !cardData.owner) {
+            return false
+        }
+        return (user.id === cardData.owner)
+    });
+
     return (
+        <>
+        { checkPermission() ?
         <div className={'wiki-main'}>
             <div className={'wiki-edit-wrap'}>
                 <LinkBlock elements={'Права доступа'} to={`/access/${page}`} className={'wiki-edit'} />
+                { checkOwnerPermission() ?
+                <Link to={`/desktop`} className={'wiki-edit wiki-edit-delete'} onClick={handleDeleteCard}>Удалить</Link>
+                : null }
                 <LinkBlock elements={'Вернуться'} to={`/wiki_page/${page}`} className={'wiki-edit'} />
             </div>
             <div className="wiki-edit-name-wraper">
-                <EditableItem onEdit={handleEditName} content={
+                <EditableItem onEdit={handleEditName} errorCheck={checkName} content={
                     <div className='wiki-name'>
                         {cardData?.name}
                     </div>
                 }/>
             </div>
             <div className="wiki-edit-name-wraper">
-                <EditableItem onEdit={handleEditSurname} content={
+                <EditableItem onEdit={handleEditSurname} errorCheck={checkName} content={
                     <div className='wiki-name'>
                         {cardData?.surname}
+                    </div>
+                }/>
+            </div>
+            <div className="wiki-edit-name-wraper">
+                <EditableItem onEdit={handleEditFamily} content={
+                    <div className='wiki-family-edit'>
+                        {cardData?.family ? cardData.family : "no family information"}
                     </div>
                 }/>
             </div>
@@ -212,7 +280,8 @@ export function  WikiEdit() {
             <div  className='wiki-create-form'>
                 <PublicationForm
                     onSuccess={handleCreate}
-                    formTitle="Добавить запись"
+                    formTitle="Add a comment"
+                    checkError = {checkComment}
                 />
             </div>
 
@@ -228,6 +297,11 @@ export function  WikiEdit() {
                 ))}
             </div>
         </div>
+        :
+            <div className='wiki-family'>
+                {"У вас нет доступа"}
+            </div>}
+        </>
     );
 }
 
