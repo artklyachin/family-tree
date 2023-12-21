@@ -1,0 +1,27 @@
+.simple-link {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    height: 100%;
+}
+
+.hh {
+    height: 100px;
+}
+
+.circle-image{
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    width: auto;
+    aspect-ratio : 1 / 1;
+}
+.circle-image img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
