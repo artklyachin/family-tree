@@ -1,4 +1,4 @@
-
+import {LOCAL_SERVER_PATH} from "../Config";
 export async function ApiService(url, params = {}) {
 
     let refreshToken = window.localStorage.getItem("refresh");
@@ -12,7 +12,7 @@ export async function ApiService(url, params = {}) {
     if (accessToken) {
         newParams.headers.Authorization = `Bearer ${accessToken}`;
     }
-    const response = await fetch(`http://127.0.0.1:8000/api/${url}`, newParams);
+    const response = await fetch(`${LOCAL_SERVER_PATH}/api/${url}`, newParams);
     let data = null;
 
     if (response.status === 401 && refreshToken) {
@@ -20,7 +20,7 @@ export async function ApiService(url, params = {}) {
 
         accessToken = window.localStorage.getItem("access");
         newParams.headers.Authorization = `Bearer ${accessToken}`;
-        const newresponse = await fetch(`http://127.0.0.1:8000/api/${url}`, newParams);
+        const newresponse = await fetch(`${LOCAL_SERVER_PATH}/api/${url}`, newParams);
         data = await newresponse.json();
     } else if (response.status === 204) { // Ok but no content
         return {};
@@ -33,7 +33,7 @@ export async function ApiService(url, params = {}) {
 export async function RefreshToken() {
     const refreshToken = window.localStorage.getItem("refresh");
     const refreshData = await fetch(
-        `http://127.0.0.1:8000/api/token/refresh/`,
+        `${LOCAL_SERVER_PATH}/api/token/refresh/`,
         {
             method: "post",
             headers: {
