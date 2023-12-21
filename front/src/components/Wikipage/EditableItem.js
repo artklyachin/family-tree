@@ -10,7 +10,7 @@ export function EditableItem(props) {
 
     const handleSuccess = (edittedComment) => {
         const responce = errorCheck ? errorCheck(edittedComment.comment) : true
-        console.log(edittedComment, responce)
+        console.log(33, edittedComment, responce)
         if (responce === true) {
             setError(null)
             setIsModalOpen(false);

@@ -44,6 +44,7 @@ export function ProfileEdit() {
     };
 
     const handleEditName = async (post) => {
+        console.log(post)
 
         let form_data = new FormData();
         form_data.append("first_name", post.comment.comment);

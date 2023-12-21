@@ -25,10 +25,13 @@ export function PublicationForm(props) {
     // }
 
     const handleChangeComment = async (event) => {
+        // console.log(444, event.target.value, checkError)
         if (checkError) {
             setComment(event.target.value)
             const responce = await checkError({comment: event.target.value, listname: listname})
             setError(responce)
+        } else {
+            setComment(event.target.value)
         }
     };
 
