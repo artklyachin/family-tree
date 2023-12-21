@@ -30,7 +30,7 @@ export function Desktop() {
                 const edited_cards = await ApiService(`cards_edit/?user=${user.id}`)
                 setEditedCards(edited_cards);
 
-                const sub_cards = await ApiService(`cards_sub/?user=${user.id}`)
+                const sub_cards = await ApiService(`cards_view/?user=${user.id}`)
                 setFavorCards(sub_cards);
             }
         })();
@@ -39,7 +39,7 @@ export function Desktop() {
     return (
         <div className='desktop-aside'>
             <TextBlock text="Projects" className="section-page-name"/>
-            <TextBlock text="your own page" className="section-section-name"/>
+            <TextBlock text="your own page ⭐" className="section-section-name"/>
             <div className="post-grid">
                 {ownedCards?.map((item) => (
                     <CardItem key={item.id} info={item} to={`/wiki_page/${item.id}/`}/>
@@ -51,7 +51,7 @@ export function Desktop() {
                     <CardItem key={item.id} info={item} to={`/wiki_page/${item.id}/`}/>
                 ))}
             </div>
-            <TextBlock text="favorite ⭐" className="section-section-name"/>
+            <TextBlock text="available for viewing" className="section-section-name"/>
             <div className="post-grid">
                 {favorCards?.map((item) => (
                     <CardItem key={item.id} info={item} to={`/wiki_page/${item.id}/`}/>

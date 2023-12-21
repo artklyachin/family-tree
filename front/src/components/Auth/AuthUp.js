@@ -4,37 +4,29 @@ import {AdaptiveLinkBlock, LinkBlock} from "../Auxiliary/LinkBlock";
 import { AuthForm } from "./AuthForm";
 import {JSON_SERVER_PATH} from "../../Config"
 import {ApiService, IsAuthorized, Logout} from "../../services/ApiService";
+import {handleLogin} from "./AuthIn"
 import {Link} from "react-router-dom";
 import React from "react";
 
 export function AuthUp() {
-    const handleLogin = async (login, password) => {
-        const { access, refresh } = await ApiService("token/", {
-            method: "Post",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username: login, password }),
-        });
 
-        if (access) {
-            window.localStorage.setItem('access', access)
-            window.localStorage.setItem('refresh', refresh)
-            window.location.href = "/"
-        }
-    };
-
-    const handleCreate = async (login, password) => {
+    const handleCreate = async ({login, password, first_name, last_name}) => {
         const formData = new FormData();
         formData.append("username", login);
         formData.append("password", password);
+        formData.append("first_name", first_name);
+        formData.append("last_name", last_name);
 
-        await ApiService("users_reg/", {
+        const responce = await ApiService("users_reg/", {
             method: "post",
             body: formData,
         });
 
-        await handleLogin(login, password);
+        if (!responce || responce.username !== login) {
+            return responce.username
+        }
+
+        await handleLogin({login, password});
     };
 
     return (
@@ -51,9 +43,9 @@ export function AuthUp() {
                 :
                     <div className="auth-up-1">
                         <TextBlock text={"Sing Up"} className="auth-SItxt"/>
-                        <AdaptiveLinkBlock elements="with google" to="/" className="auth-GGLbtn"/>
-                        <TextBlock text='or use your email to sign up:' className='auth-UseEmtxt'/>
-                        <AuthForm onSuccess={handleCreate} formTitle={"Sing Up"}/>
+                        <AdaptiveLinkBlock elements="with google" className="auth-GGLbtn"/>
+                        <TextBlock text='or choose your username to sign up:' className='auth-UseEmtxt'/>
+                        <AuthForm onSuccess={handleCreate} formTitle={"Sing Up"} IsSingUp={true}/>
                     </div>
                 }
             </div>
