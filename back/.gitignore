@@ -1,0 +1,14 @@
+.venv
+db.sqlite3
+
+/back/secret_key.py
+/card/migrations/*
+
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+images
+static
