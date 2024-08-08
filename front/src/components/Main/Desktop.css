@@ -1,0 +1,76 @@
+/*margin - это отступы*/
+.desktop-aside {
+    box-sizing: border-box;
+    padding: 0px 40px 40px;
+
+    display: grid;
+    grid-template-rows: auto auto 60px auto 60px auto 60px;
+    grid-row-gap: 10px;
+}
+
+@media (max-width: 800px) {
+    .desktop-aside {
+        box-sizing: border-box;
+        padding: 0px 20px 20px;
+    }
+}
+
+.search-space {
+    max-width: 500px;
+    height: auto;
+
+    margin-bottom:auto
+}
+
+.search-field {
+    height: 100%;
+    max-width: 100%;
+
+    border: 1px solid #000000;
+    border-radius: 10px;
+
+    box-sizing: border-box;
+    padding: 11px 20px 10px;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 28px;
+    /* identical to box height */
+
+
+    color: #8F8F8F;
+}
+
+.section-page-name {
+    text-align: center;
+
+    font-style: normal;
+    font-weight: 100;
+    font-size: 40px;
+    line-height: 48px;
+
+    color: #000000;
+}
+
+.section-section-create {
+    color: #595959 !important;
+    border: 1.5px solid !important;
+    width: 280px;
+}
+
+.section-section-name {
+    margin-top: auto;
+
+    font-style: normal;
+    font-weight: 300;
+    font-size: 25px;
+    line-height: 30px;
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 280px);
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+}
